@@ -84,7 +84,7 @@ class Entity(Base):
     entity_id = Column(String, unique=True, index=True, nullable=False)
     entity_type = Column(String, nullable=False, index=True)  # customer, merchant, device, ip, account
     name = Column(String)
-    metadata = Column(JSON)  # Additional entity-specific data
+    entity_metadata = Column(JSON)  # Additional entity-specific data
     created_at = Column(DateTime, server_default=func.now())
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     
@@ -102,7 +102,7 @@ class EntityLink(Base):
     from_entity_id = Column(Integer, ForeignKey("entities.id"), nullable=False)
     to_entity_id = Column(Integer, ForeignKey("entities.id"), nullable=False)
     relationship_type = Column(String)  # owns, uses, transacted_with, etc.
-    metadata = Column(JSON)
+    link_metadata = Column(JSON)
     created_at = Column(DateTime, server_default=func.now())
     
     # Relationships
@@ -142,7 +142,7 @@ class CaseEvent(Base):
     event_type = Column(String, nullable=False)  # note, action, status_change, etc.
     title = Column(String)
     content = Column(Text)
-    metadata = Column(JSON)  # Additional event data
+    event_metadata = Column(JSON)  # Additional event data
     created_by_id = Column(Integer, ForeignKey("users.id"))
     created_at = Column(DateTime, server_default=func.now(), index=True)
     
@@ -212,7 +212,7 @@ class AuditLog(Base):
     resource_id = Column(String, index=True)
     before_state = Column(JSON)
     after_state = Column(JSON)
-    metadata = Column(JSON)
+    audit_metadata = Column(JSON)
     ip_address = Column(String)
     user_agent = Column(String)
     created_at = Column(DateTime, server_default=func.now(), index=True)

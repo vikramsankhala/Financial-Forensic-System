@@ -4,7 +4,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json* ./
-RUN npm ci
+RUN npm install
 
 # Build stage
 FROM node:20-alpine AS builder
@@ -28,10 +28,13 @@ RUN addgroup --system --gid 1001 nodejs
 RUN adduser --system --uid 1001 nextjs
 
 # Copy necessary files
-COPY --from=builder /app/public ./public
+RUN mkdir -p ./public
 COPY --from=builder --chown=nextjs:nodejs /app/.next ./.next
 COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
+
+# Copy public directory if it exists (using a workaround)
+RUN if [ -d "/app/public" ]; then cp -r /app/public ./public; fi || true
 
 USER nextjs
 
@@ -41,4 +44,3 @@ ENV PORT 3000
 ENV HOSTNAME "0.0.0.0"
 
 CMD ["npm", "start"]
-

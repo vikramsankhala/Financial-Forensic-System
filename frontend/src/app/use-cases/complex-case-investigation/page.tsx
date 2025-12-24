@@ -23,12 +23,10 @@ import {
   MenuItem,
   Card,
   CardContent,
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
   Alert,
   Tooltip,
   Grid,
@@ -45,12 +43,10 @@ import { CaseStatus, Case, CaseEvent, Transaction } from '@/types';
 import { useSnackbar } from 'notistack';
 import { useAuth } from '@/contexts/AuthContext';
 import { RoleGuard } from '@/components/RoleGuard';
-import { useRequireAuth } from '@/contexts/AuthContext';
 import { RiskLevel } from '@/types';
 import { DemoNarrationPlayer } from '@/components/DemoNarrationPlayer';
 
 export default function ComplexCaseInvestigationPage() {
-  useRequireAuth();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const { user, hasRole } = useAuth();
@@ -267,27 +263,28 @@ export default function ComplexCaseInvestigationPage() {
                 <Typography variant="subtitle2" gutterBottom sx={{ mt: 3 }}>
                   Recent Timeline Events
                 </Typography>
-                <Timeline>
-                  {events.slice(-5).map((event: CaseEvent) => (
-                    <TimelineItem key={event.id}>
-                      <TimelineSeparator>
-                        <TimelineDot color="primary" />
-                        <TimelineConnector />
-                      </TimelineSeparator>
-                      <TimelineContent>
-                        <Typography variant="caption" color="text.secondary">
-                          {new Date(event.created_at).toLocaleString()}
-                        </Typography>
-                        <Typography variant="body2">{event.title}</Typography>
-                        {event.content && (
-                          <Typography variant="body2" color="text.secondary">
-                            {event.content}
-                          </Typography>
-                        )}
-                      </TimelineContent>
-                    </TimelineItem>
+                <List>
+                  {events.slice(-5).map((event: CaseEvent, idx: number) => (
+                    <ListItem key={event.id} alignItems="flex-start">
+                      <ListItemText
+                        primary={event.title || event.event_type}
+                        secondary={
+                          <>
+                            {event.content && (
+                              <Typography variant="body2" component="span" display="block">
+                                {event.content}
+                              </Typography>
+                            )}
+                            <Typography variant="caption" display="block" color="text.secondary" sx={{ mt: 0.5 }}>
+                              {new Date(event.created_at).toLocaleString()}
+                            </Typography>
+                          </>
+                        }
+                      />
+                      {idx < events.slice(-5).length - 1 && <Divider component="li" sx={{ my: 1 }} />}
+                    </ListItem>
                   ))}
-                </Timeline>
+                </List>
               </Grid>
 
               <Grid item xs={12} md={6}>

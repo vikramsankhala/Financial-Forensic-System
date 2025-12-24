@@ -35,7 +35,6 @@ import { RiskLevel, Transaction, Case } from '@/types';
 import { useSnackbar } from 'notistack';
 import { useAuth } from '@/contexts/AuthContext';
 import { RoleGuard } from '@/components/RoleGuard';
-import { useRequireAuth } from '@/contexts/AuthContext';
 import { DemoNarrationPlayer } from '@/components/DemoNarrationPlayer';
 
 interface TabPanelProps {
@@ -60,7 +59,6 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function RealTimeAlertTriagePage() {
-  useRequireAuth();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const { hasRole } = useAuth();

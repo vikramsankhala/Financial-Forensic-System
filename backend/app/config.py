@@ -1,16 +1,35 @@
 """Application configuration."""
-from pydantic_settings import BaseSettings
+from pydantic_settings import BaseSettings, SettingsConfigDict
+from pydantic import Field
 from typing import Optional
+import os
 
 
 class Settings(BaseSettings):
     """Application settings loaded from environment variables."""
     
-    # Database
-    database_url: str
+    model_config = SettingsConfigDict(
+        env_file=".env",
+        case_sensitive=False,
+        env_ignore_empty=True,
+    )
     
-    # JWT
-    jwt_secret: str
+    # Database - explicitly map DATABASE_URL env var
+    database_url: str = Field(..., validation_alias="DATABASE_URL")
+    
+    # Redis - optional, defaults to None if not provided
+    redis_url: Optional[str] = Field(None, validation_alias="REDIS_URL")
+    redis_enabled: bool = Field(True, validation_alias="REDIS_ENABLED")
+    redis_cache_ttl: int = Field(3600, validation_alias="REDIS_CACHE_TTL")  # Default 1 hour
+    
+    # Neo4j - optional, defaults to None if not provided
+    neo4j_uri: Optional[str] = Field(None, validation_alias="NEO4J_URI")
+    neo4j_user: Optional[str] = Field(None, validation_alias="NEO4J_USER")
+    neo4j_password: Optional[str] = Field(None, validation_alias="NEO4J_PASSWORD")
+    neo4j_enabled: bool = Field(False, validation_alias="NEO4J_ENABLED")
+    
+    # JWT - explicitly map JWT_SECRET env var
+    jwt_secret: str = Field(..., validation_alias="JWT_SECRET")
     jwt_algorithm: str = "HS256"
     jwt_expiration_hours: int = 24
     
@@ -28,9 +47,8 @@ class Settings(BaseSettings):
     # Monitoring
     metrics_enabled: bool = True
     
-    class Config:
-        env_file = ".env"
-        case_sensitive = False
+    # OpenAI (optional)
+    openai_api_key: Optional[str] = Field(None, validation_alias="OPENAI_API_KEY")
 
 
 settings = Settings()

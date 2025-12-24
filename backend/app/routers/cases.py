@@ -164,7 +164,7 @@ async def add_case_note(
         event_type=event_data.event_type,
         title=event_data.title,
         content=event_data.content,
-        metadata=event_data.metadata,
+        event_metadata=event_data.metadata,
         created_by_id=current_user.id
     )
     
@@ -190,7 +190,14 @@ async def get_case_report(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
-    """Get a case report."""
+    """Get a case report. Cached for 5 minutes."""
+    from app.cache import get_cache, set_cache, CacheKeys
+    
+    cache_key = f"{CacheKeys.CASE_REPORT}:{case_id}"
+    cached_report = get_cache(cache_key)
+    if cached_report:
+        return cached_report
+    
     case = db.query(Case).filter(Case.id == case_id).first()
     if not case:
         raise HTTPException(status_code=404, detail="Case not found")
@@ -217,11 +224,16 @@ async def get_case_report(
         "priority": case.priority
     }
     
-    return CaseReportResponse(
+    result = CaseReportResponse(
         case=case,
         transactions=transactions,
         entities=entities,
         events=events,
         summary=summary
     )
+    
+    # Cache for 5 minutes
+    set_cache(cache_key, result, ttl=300)
+    
+    return result
 

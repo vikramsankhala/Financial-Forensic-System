@@ -14,9 +14,6 @@ import {
   Typography,
   IconButton,
   Box,
-  Avatar,
-  Menu,
-  MenuItem,
   Breadcrumbs,
   Link,
   Collapse,
@@ -31,7 +28,6 @@ import {
   Receipt as TransactionIcon,
   Folder as CaseIcon,
   AccountTree as EntityIcon,
-  Logout as LogoutIcon,
   Menu as MenuIcon,
   Brightness4,
   Brightness7,
@@ -44,8 +40,11 @@ import {
   Summarize as SummaryIcon,
   Book as GuideIcon,
   SmartToy as AssistantIcon,
+  AccountTree as ProcessFlowIcon,
+  Hub as IntegrationIcon,
+  Psychology as MLTechniquesIcon,
+  Storage as BackendArchitectureIcon,
 } from '@mui/icons-material';
-import { useAuth } from '@/contexts/AuthContext';
 import { AIAssistant } from '@/components/AIAssistant';
 
 const drawerWidth = 240;
@@ -58,9 +57,7 @@ interface LayoutProps {
 export default function Layout({ children, breadcrumbs }: LayoutProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { user, logout } = useAuth();
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [darkMode, setDarkMode] = useState(false);
 
   useEffect(() => {
@@ -74,10 +71,6 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
     setMobileOpen(!mobileOpen);
   };
 
-  const handleLogout = () => {
-    logout();
-  };
-
   const toggleDarkMode = () => {
     const newMode = !darkMode;
     setDarkMode(newMode);
@@ -86,7 +79,7 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
   };
 
   const [useCasesOpen, setUseCasesOpen] = useState(pathname.startsWith('/use-cases'));
-  const [docsOpen, setDocsOpen] = useState(pathname.startsWith('/docs'));
+  const [docsOpen, setDocsOpen] = useState(pathname.startsWith('/docs') || pathname.startsWith('/process-flow'));
   const [assistantOpen, setAssistantOpen] = useState(false);
 
   const menuItems = [
@@ -105,6 +98,10 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
   const docsItems = [
     { text: 'Executive Summary', icon: <SummaryIcon />, path: '/docs/executive-summary' },
     { text: 'User Guide', icon: <GuideIcon />, path: '/docs/user-guide' },
+    { text: 'Process Flow', icon: <ProcessFlowIcon />, path: '/process-flow' },
+    { text: 'ML/AI Techniques', icon: <MLTechniquesIcon />, path: '/docs/ml-techniques' },
+    { text: 'Backend Architecture', icon: <BackendArchitectureIcon />, path: '/docs/backend-architecture' },
+    { text: 'System Integration', icon: <IntegrationIcon />, path: '/docs/integration' },
   ];
 
   const drawer = (
@@ -215,34 +212,6 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
           <IconButton color="inherit" onClick={toggleDarkMode}>
             {darkMode ? <Brightness7 /> : <Brightness4 />}
           </IconButton>
-          <IconButton
-            onClick={(e) => setAnchorEl(e.currentTarget)}
-            sx={{ ml: 1 }}
-          >
-            <Avatar sx={{ width: 32, height: 32 }}>
-              {user?.username?.[0]?.toUpperCase() || 'U'}
-            </Avatar>
-          </IconButton>
-          <Menu
-            anchorEl={anchorEl}
-            open={Boolean(anchorEl)}
-            onClose={() => setAnchorEl(null)}
-          >
-            <MenuItem disabled>
-              <Typography variant="body2">{user?.username}</Typography>
-            </MenuItem>
-            <MenuItem disabled>
-              <Typography variant="caption" color="text.secondary">
-                {user?.role}
-              </Typography>
-            </MenuItem>
-            <MenuItem onClick={handleLogout}>
-              <ListItemIcon>
-                <LogoutIcon fontSize="small" />
-              </ListItemIcon>
-              <ListItemText>Logout</ListItemText>
-            </MenuItem>
-          </Menu>
         </Toolbar>
       </AppBar>
       <Box

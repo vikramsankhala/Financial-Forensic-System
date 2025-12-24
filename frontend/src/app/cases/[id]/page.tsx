@@ -23,12 +23,10 @@ import {
   TableContainer,
   TableHead,
   TableRow,
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
   IconButton,
 } from '@mui/material';
 import {
@@ -201,27 +199,28 @@ export default function CaseDetailPage() {
               <Typography variant="h6" gutterBottom>
                 Timeline
               </Typography>
-              <Timeline>
+              <List>
                 {events.map((event: CaseEvent, index: number) => (
-                  <TimelineItem key={event.id}>
-                    <TimelineSeparator>
-                      <TimelineDot color="primary" />
-                      {index < events.length - 1 && <TimelineConnector />}
-                    </TimelineSeparator>
-                    <TimelineContent>
-                      <Typography variant="subtitle2">{event.title}</Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        {new Date(event.created_at).toLocaleString()}
-                      </Typography>
-                      {event.content && (
-                        <Typography variant="body2" sx={{ mt: 1 }}>
-                          {event.content}
-                        </Typography>
-                      )}
-                    </TimelineContent>
-                  </TimelineItem>
+                  <ListItem key={event.id} alignItems="flex-start">
+                    <ListItemText
+                      primary={event.title || event.event_type}
+                      secondary={
+                        <>
+                          {event.content && (
+                            <Typography variant="body2" component="span" display="block">
+                              {event.content}
+                            </Typography>
+                          )}
+                          <Typography variant="caption" display="block" color="text.secondary" sx={{ mt: 0.5 }}>
+                            {new Date(event.created_at).toLocaleString()}
+                          </Typography>
+                        </>
+                      }
+                    />
+                    {index < events.length - 1 && <Divider component="li" sx={{ my: 1 }} />}
+                  </ListItem>
                 ))}
-              </Timeline>
+              </List>
 
               <RoleGuard roles={['INVESTIGATOR', 'ANALYST', 'ADMIN']}>
                 <Box sx={{ mt: 3, pt: 3, borderTop: 1, borderColor: 'divider' }}>

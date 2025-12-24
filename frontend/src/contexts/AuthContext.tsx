@@ -1,9 +1,7 @@
 'use client';
 
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useRouter } from 'next/navigation';
+import React, { createContext, useContext, ReactNode } from 'react';
 import { User } from '@/types';
-import { auth } from '@/lib/api-client';
 
 interface AuthContextType {
   user: User | null;
@@ -16,70 +14,36 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+// Default user with admin role for unrestricted access
+const defaultUser: User = {
+  id: 1,
+  username: 'admin',
+  email: 'admin@frauddetection.com',
+  role: 'ADMIN',
+  full_name: 'System Administrator',
+  is_active: true,
+  created_at: new Date().toISOString(),
+};
+
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [token, setToken] = useState<string | null>(null);
-  const router = useRouter();
-
-  useEffect(() => {
-    // Load auth state from localStorage
-    if (typeof window !== 'undefined') {
-      const storedToken = localStorage.getItem('auth_token');
-      const storedUser = localStorage.getItem('auth_user');
-      
-      if (storedToken && storedUser) {
-        setToken(storedToken);
-        try {
-          setUser(JSON.parse(storedUser));
-        } catch (e) {
-          // Invalid stored user, clear it
-          localStorage.removeItem('auth_token');
-          localStorage.removeItem('auth_user');
-        }
-      }
-    }
-  }, []);
-
-  const login = async (username: string, password: string) => {
-    const response = await auth.login({ username, password });
-    setToken(response.access_token);
-    setUser(response.user);
-    
-    if (typeof window !== 'undefined') {
-      localStorage.setItem('auth_token', response.access_token);
-      localStorage.setItem('auth_user', JSON.stringify(response.user));
-    }
+  // Always authenticated - no authentication required
+  const value: AuthContextType = {
+    user: defaultUser,
+    token: null,
+    isAuthenticated: true,
+    login: async () => {
+      // No-op
+    },
+    logout: () => {
+      // No-op
+    },
+    hasRole: () => {
+      // Always return true - no role restrictions
+      return true;
+    },
   };
 
-  const logout = () => {
-    setToken(null);
-    setUser(null);
-    if (typeof window !== 'undefined') {
-      localStorage.removeItem('auth_token');
-      localStorage.removeItem('auth_user');
-    }
-    router.push('/login');
-  };
-
-  const hasRole = (roles: string[]): boolean => {
-    if (!user) return false;
-    return roles.includes(user.role.toUpperCase());
-  };
-
-  return (
-    <AuthContext.Provider
-      value={{
-        user,
-        token,
-        isAuthenticated: !!token && !!user,
-        login,
-        logout,
-        hasRole,
-      }}
-    >
-      {children}
-    </AuthContext.Provider>
-  );
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useAuth() {
@@ -91,20 +55,8 @@ export function useAuth() {
 }
 
 export function useRequireAuth(requiredRoles?: string[]) {
-  const { isAuthenticated, hasRole, user } = useAuth();
-  const router = useRouter();
-
-  useEffect(() => {
-    if (!isAuthenticated) {
-      router.push('/login');
-      return;
-    }
-
-    if (requiredRoles && !hasRole(requiredRoles)) {
-      router.push('/dashboard');
-    }
-  }, [isAuthenticated, requiredRoles, hasRole, router]);
-
-  return { isAuthenticated, user, hasRole };
+  // No-op - authentication is not required
+  const { user, hasRole } = useAuth();
+  return { isAuthenticated: true, user, hasRole };
 }
 

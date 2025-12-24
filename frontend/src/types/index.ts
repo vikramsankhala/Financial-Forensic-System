@@ -89,6 +89,17 @@ export interface Entity {
   updated_at: string;
 }
 
+export interface EntityNetworkResponse {
+  entity: Entity;
+  links: Array<{
+    from_entity_id: string;
+    to_entity_id: string;
+    entity_type: string;
+    relationship_type: string;
+    metadata?: Record<string, any>;
+  }>;
+}
+
 export interface User {
   id: number;
   username: string;

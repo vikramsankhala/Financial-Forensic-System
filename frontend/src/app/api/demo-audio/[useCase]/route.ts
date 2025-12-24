@@ -31,7 +31,7 @@ export async function GET(
   // Check cache first
   const cachedAudio = audioCache.get(useCase);
   if (cachedAudio) {
-    return new NextResponse(cachedAudio, {
+    return new NextResponse(new Uint8Array(cachedAudio), {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': cachedAudio.length.toString(),
@@ -71,7 +71,7 @@ export async function GET(
     // Cache the audio
     audioCache.set(useCase, buffer);
 
-    return new NextResponse(buffer, {
+    return new NextResponse(new Uint8Array(buffer), {
       headers: {
         'Content-Type': 'audio/mpeg',
         'Content-Length': buffer.length.toString(),

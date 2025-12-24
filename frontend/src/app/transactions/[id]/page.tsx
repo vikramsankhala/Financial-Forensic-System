@@ -18,12 +18,10 @@ import {
   TableRow,
   Card,
   CardContent,
-  Timeline,
-  TimelineItem,
-  TimelineSeparator,
-  TimelineConnector,
-  TimelineContent,
-  TimelineDot,
+  List,
+  ListItem,
+  ListItemText,
+  Divider,
 } from '@mui/material';
 import {
   ArrowBack as BackIcon,

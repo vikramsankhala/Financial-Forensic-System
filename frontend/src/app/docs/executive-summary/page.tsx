@@ -24,10 +24,8 @@ import {
   CheckCircle as CheckIcon,
 } from '@mui/icons-material';
 import Layout from '@/components/Layout';
-import { useRequireAuth } from '@/contexts/AuthContext';
 
 export default function ExecutiveSummaryPage() {
-  useRequireAuth();
 
   const features = [
     {

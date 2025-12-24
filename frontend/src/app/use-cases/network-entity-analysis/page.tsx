@@ -32,14 +32,12 @@ import { Entity, EntityNetworkResponse } from '@/types';
 import { useSnackbar } from 'notistack';
 import { useAuth } from '@/contexts/AuthContext';
 import { RoleGuard } from '@/components/RoleGuard';
-import { useRequireAuth } from '@/contexts/AuthContext';
 import { DemoNarrationPlayer } from '@/components/DemoNarrationPlayer';
 
 // Dynamically import force graph to avoid SSR issues
 const ForceGraph2D = dynamic(() => import('react-force-graph-2d'), { ssr: false });
 
 export default function NetworkEntityAnalysisPage() {
-  useRequireAuth();
   const router = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const { hasRole } = useAuth();
