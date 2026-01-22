@@ -1,0 +1,41 @@
+services:
+  - type: web
+    name: fraud-detection-backend
+    env: docker
+    plan: free
+    rootDir: backend
+    autoDeploy: true
+    envVars:
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: REDIS_URL
+        sync: false
+      - key: REDIS_ENABLED
+        sync: false
+      - key: NEO4J_URI
+        sync: false
+      - key: NEO4J_USER
+        sync: false
+      - key: NEO4J_PASSWORD
+        sync: false
+      - key: NEO4J_ENABLED
+        sync: false
+  - type: web
+    name: fraud-detection-frontend
+    env: node
+    plan: free
+    rootDir: frontend
+    autoDeploy: true
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm run start"
+    envVars:
+      - key: NEXT_PUBLIC_API_URL
+        sync: false
+      - key: NEXT_PUBLIC_DEMO_AUDIO_ENABLED
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
