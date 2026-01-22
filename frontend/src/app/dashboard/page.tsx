@@ -66,41 +66,61 @@ export default function DashboardPage() {
     queryFn: () => cases.list(),
   });
 
+  const transactionsList = (transactionsData || []) as Transaction[];
+
   // Calculate KPIs
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  const transactionsToday = transactionsData?.filter(
-    (tx) => new Date(tx.timestamp) >= today
-  ) || [];
+  const transactionsToday = transactionsList.filter(
+    (tx: Transaction) => new Date(tx.timestamp) >= today
+  );
 
-  const flaggedCount = transactionsData?.filter(
-    (tx: any) => (tx as any).risk_level === RiskLevel.HIGH || (tx as any).risk_level === RiskLevel.CRITICAL
-  ).length || 0;
+  const flaggedCount = transactionsList.filter(
+    (tx: Transaction) =>
+      (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.HIGH ||
+      (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.CRITICAL
+  ).length;
 
   const openCases = casesData?.filter((c) => c.status !== 'closed').length || 0;
 
   const totalAmount = transactionsToday.reduce((sum, tx) => sum + tx.amount, 0);
-  const highRiskAmount = transactionsData
-    ?.filter((tx: any) => (tx as any).risk_level === RiskLevel.HIGH || (tx as any).risk_level === RiskLevel.CRITICAL)
-    .reduce((sum, tx) => sum + tx.amount, 0) || 0;
+  const highRiskAmount = transactionsList
+    .filter(
+      (tx: Transaction) =>
+        (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.HIGH ||
+        (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.CRITICAL
+    )
+    .reduce((sum, tx) => sum + tx.amount, 0);
 
   // Prepare chart data
   const riskDistribution = [
     {
       name: 'LOW',
-      value: transactionsData?.filter((tx: any) => (tx as any).risk_level === RiskLevel.LOW).length || 0,
+      value: transactionsList.filter(
+        (tx: Transaction) =>
+          (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.LOW
+      ).length,
     },
     {
       name: 'MEDIUM',
-      value: transactionsData?.filter((tx: any) => (tx as any).risk_level === RiskLevel.MEDIUM).length || 0,
+      value: transactionsList.filter(
+        (tx: Transaction) =>
+          (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.MEDIUM
+      ).length,
     },
     {
       name: 'HIGH',
-      value: transactionsData?.filter((tx: any) => (tx as any).risk_level === RiskLevel.HIGH).length || 0,
+      value: transactionsList.filter(
+        (tx: Transaction) =>
+          (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.HIGH
+      ).length,
     },
     {
       name: 'CRITICAL',
-      value: transactionsData?.filter((tx: any) => (tx as any).risk_level === RiskLevel.CRITICAL).length || 0,
+      value: transactionsList.filter(
+        (tx: Transaction) =>
+          (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.CRITICAL
+      ).length,
     },
   ];
 
@@ -113,10 +133,14 @@ export default function DashboardPage() {
   }));
 
   // Recent high-risk transactions
-  const recentHighRisk = transactionsData
-    ?.filter((tx: any) => (tx as any).risk_level === RiskLevel.HIGH || (tx as any).risk_level === RiskLevel.CRITICAL)
+  const recentHighRisk = transactionsList
+    .filter(
+      (tx: Transaction) =>
+        (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.HIGH ||
+        (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.CRITICAL
+    )
     .slice(0, 10)
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()) || [];
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime());
 
   const statCards = [
     {
