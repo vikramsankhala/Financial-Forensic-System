@@ -40,7 +40,7 @@ import {
 import Layout from '@/components/Layout';
 import { transactions, cases } from '@/lib/api-client';
 import { RiskChip } from '@/components/RiskChip';
-import { RiskLevel, Transaction } from '@/types';
+import { Case, RiskLevel, Transaction } from '@/types';
 import { useRouter } from 'next/navigation';
 
 const COLORS = {
@@ -67,6 +67,7 @@ export default function DashboardPage() {
   });
 
   const transactionsList = (transactionsData || []) as Transaction[];
+  const casesList = (casesData || []) as Case[];
 
   // Calculate KPIs
   const today = new Date();
@@ -81,7 +82,7 @@ export default function DashboardPage() {
       (tx as Transaction & { risk_level?: RiskLevel }).risk_level === RiskLevel.CRITICAL
   ).length;
 
-  const openCases = casesData?.filter((c) => c.status !== 'closed').length || 0;
+  const openCases = casesList.filter((c: Case) => c.status !== 'closed').length;
 
   const totalAmount = transactionsToday.reduce((sum, tx) => sum + tx.amount, 0);
   const highRiskAmount = transactionsList
