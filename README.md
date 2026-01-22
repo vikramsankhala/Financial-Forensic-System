@@ -43,7 +43,6 @@ Template files are included to help you create local env files (non-secret):
 - Root template: `env.template` → copy to `.env` (for backend defaults)
 - Backend template: `backend/env.template` → copy to `backend/.env`
 - Frontend template: `frontend/env.local.template` → copy to `frontend/.env.local`
-
 ### Local Development
 
 #### Backend Setup

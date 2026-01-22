@@ -5,7 +5,6 @@ WORKDIR /app
 
 # Ensure local user scripts are on PATH during build
 ENV PATH=/root/.local/bin:$PATH
-
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     gcc \

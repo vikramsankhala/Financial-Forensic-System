@@ -271,7 +271,6 @@ Templates are provided in the repo to help you create local env files:
 - Frontend: `frontend/env.local.template`
 
 Copy these to `.env` / `.env.local` and fill in real values.
-
 ## Database Recommendations
 
 ### Current Setup: PostgreSQL

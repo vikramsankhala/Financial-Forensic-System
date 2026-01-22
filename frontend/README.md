@@ -48,7 +48,6 @@ Templates are included to help you start:
 - `frontend/env.local.template`
 
 Copy it to `.env.local` and fill in real values.
-
 For production, set this to your deployed backend URL:
 ```env
 NEXT_PUBLIC_API_URL=https://fraud-detection-backend.fly.dev/api
@@ -282,6 +281,7 @@ Voice settings can be adjusted in `src/app/api/demo-audio/[useCase]/route.ts`:
 
 See the main README.md for Fly.io deployment instructions. The frontend can be deployed as a separate Fly.io app or served statically from the backend.
 
+<<<<<<< HEAD
 ### Netlify (Frontend Only)
 
 Netlify settings are provided in `netlify.toml` at repo root:
@@ -296,6 +296,8 @@ Set these environment variables in Netlify:
 - `NEXT_PUBLIC_DEMO_AUDIO_ENABLED` (`true` or `false`)
 - `OPENAI_API_KEY` (required for audio demos)
 
+=======
+>>>>>>> origin/main
 ## Troubleshooting
 
 ### API Connection Issues
