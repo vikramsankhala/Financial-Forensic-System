@@ -1,0 +1,44 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: ffs
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - ffs_pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DATABASE_URL: postgresql+psycopg2://postgres:postgres@db:5432/ffs
+      JWT_SECRET: ${JWT_SECRET:-local-dev-secret}
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      REDIS_ENABLED: "false"
+      NEO4J_ENABLED: "false"
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api}
+        NEXT_PUBLIC_DEMO_AUDIO_ENABLED: ${NEXT_PUBLIC_DEMO_AUDIO_ENABLED:-false}
+    environment:
+      NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:8000/api}
+      NEXT_PUBLIC_DEMO_AUDIO_ENABLED: ${NEXT_PUBLIC_DEMO_AUDIO_ENABLED:-false}
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+
+volumes:
+  ffs_pgdata:
