@@ -1,0 +1,174 @@
+name: Deploy to Azure Container Apps
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch: {}
+
+env:
+  BACKEND_IMAGE_NAME: ffs-backend
+  FRONTEND_IMAGE_NAME: ffs-frontend
+  IMAGE_TAG: ${{ github.sha }}
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Azure login
+        uses: azure/login@v2
+        with:
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
+
+      - name: ACR login
+        run: |
+          az acr login --name "${{ vars.ACR_NAME }}"
+
+      - name: Build and push backend image
+        run: |
+          docker build -t "${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}" -f backend/Dockerfile backend
+          docker push "${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+          docker tag "${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}" "${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest"
+          docker push "${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:latest"
+
+      - name: Build and push frontend image
+        run: |
+          docker build -t "${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}" -f frontend/Dockerfile frontend
+          docker push "${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+          docker tag "${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}" "${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest"
+          docker push "${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:latest"
+
+      - name: Fetch Key Vault secrets
+        shell: bash
+        run: |
+          set -euo pipefail
+          fetch_secret() {
+            local name="$1"
+            local var="$2"
+            local value=""
+            value="$(az keyvault secret show --vault-name "${{ vars.KEYVAULT_NAME }}" --name "$name" --query value -o tsv 2>/dev/null || true)"
+            echo "::add-mask::$value"
+            echo "${var}=${value}" >> "$GITHUB_ENV"
+          }
+
+          fetch_secret "DATABASE-URL" "DATABASE_URL"
+          fetch_secret "SECRET-KEY" "SECRET_KEY"
+          fetch_secret "OPENAI-API-KEY" "OPENAI_API_KEY"
+          fetch_secret "REDIS-URL" "REDIS_URL"
+          fetch_secret "NEO4J-URI" "NEO4J_URI"
+          fetch_secret "NEO4J-USER" "NEO4J_USER"
+          fetch_secret "NEO4J-PASSWORD" "NEO4J_PASSWORD"
+
+      - name: Deploy backend container app
+        shell: bash
+        run: |
+          set -euo pipefail
+          BACKEND_IMAGE="${{ vars.ACR_LOGIN_SERVER }}/${{ env.BACKEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+
+          if az containerapp show -g "${{ vars.RESOURCE_GROUP }}" -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" >/dev/null 2>&1; then
+            az containerapp identity assign \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+              --system-assigned
+
+            az containerapp registry set \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+              --server "${{ vars.ACR_LOGIN_SERVER }}" \
+              --identity system
+
+            az containerapp update \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+              --image "$BACKEND_IMAGE"
+          else
+            az containerapp create \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+              --environment "${{ vars.CONTAINER_APP_ENV }}" \
+              --image "$BACKEND_IMAGE" \
+              --registry-server "${{ vars.ACR_LOGIN_SERVER }}" \
+              --registry-identity system \
+              --target-port 8000 \
+              --ingress external
+          fi
+
+          az containerapp secret set \
+            -g "${{ vars.RESOURCE_GROUP }}" \
+            -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+            --secrets \
+              database-url="${DATABASE_URL}" \
+              secret-key="${SECRET_KEY}" \
+              openai-api-key="${OPENAI_API_KEY}" \
+              redis-url="${REDIS_URL}" \
+              neo4j-uri="${NEO4J_URI}" \
+              neo4j-user="${NEO4J_USER}" \
+              neo4j-password="${NEO4J_PASSWORD}"
+
+          az containerapp update \
+            -g "${{ vars.RESOURCE_GROUP }}" \
+            -n "${{ vars.BACKEND_CONTAINER_APP_NAME }}" \
+            --set-env-vars \
+              REDIS_ENABLED="${{ vars.REDIS_ENABLED }}" \
+              REDIS_CACHE_TTL="${{ vars.REDIS_CACHE_TTL }}" \
+              NEO4J_ENABLED="${{ vars.NEO4J_ENABLED }}" \
+            --secret-env-vars \
+              DATABASE_URL=database-url \
+              SECRET_KEY=secret-key \
+              OPENAI_API_KEY=openai-api-key \
+              REDIS_URL=redis-url \
+              NEO4J_URI=neo4j-uri \
+              NEO4J_USER=neo4j-user \
+              NEO4J_PASSWORD=neo4j-password
+
+      - name: Deploy frontend container app
+        shell: bash
+        run: |
+          set -euo pipefail
+          FRONTEND_IMAGE="${{ vars.ACR_LOGIN_SERVER }}/${{ env.FRONTEND_IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+
+          if az containerapp show -g "${{ vars.RESOURCE_GROUP }}" -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" >/dev/null 2>&1; then
+            az containerapp identity assign \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+              --system-assigned
+
+            az containerapp registry set \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+              --server "${{ vars.ACR_LOGIN_SERVER }}" \
+              --identity system
+
+            az containerapp update \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+              --image "$FRONTEND_IMAGE"
+          else
+            az containerapp create \
+              -g "${{ vars.RESOURCE_GROUP }}" \
+              -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+              --environment "${{ vars.CONTAINER_APP_ENV }}" \
+              --image "$FRONTEND_IMAGE" \
+              --registry-server "${{ vars.ACR_LOGIN_SERVER }}" \
+              --registry-identity system \
+              --target-port 3000 \
+              --ingress external
+          fi
+
+          az containerapp secret set \
+            -g "${{ vars.RESOURCE_GROUP }}" \
+            -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+            --secrets \
+              openai-api-key="${OPENAI_API_KEY}"
+
+          az containerapp update \
+            -g "${{ vars.RESOURCE_GROUP }}" \
+            -n "${{ vars.FRONTEND_CONTAINER_APP_NAME }}" \
+            --set-env-vars \
+              NEXT_PUBLIC_API_URL="${{ vars.NEXT_PUBLIC_API_URL }}" \
+              NEXT_PUBLIC_DEMO_AUDIO_ENABLED="${{ vars.NEXT_PUBLIC_DEMO_AUDIO_ENABLED }}" \
+            --secret-env-vars \
+              OPENAI_API_KEY=openai-api-key

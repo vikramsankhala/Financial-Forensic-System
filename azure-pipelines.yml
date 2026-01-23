@@ -1,0 +1,173 @@
+trigger:
+  branches:
+    include:
+      - main
+
+variables:
+  pythonVersion: "3.11"
+  nodeVersion: "20.x"
+  imageTag: "$(Build.BuildId)"
+  backendImageName: "ffs-backend"
+  frontendImageName: "ffs-frontend"
+  keyVaultSecretsFilter: "DATABASE-URL,SECRET-KEY,OPENAI-API-KEY,REDIS-URL,NEO4J-URI,NEO4J-USER,NEO4J-PASSWORD"
+
+stages:
+  - stage: Build
+    displayName: Build and push images
+    jobs:
+      - job: BuildImages
+        displayName: Build and push backend/frontend
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - checkout: self
+
+          - task: Docker@2
+            displayName: Build and push backend image
+            inputs:
+              command: buildAndPush
+              repository: "$(backendImageName)"
+              dockerfile: "backend/Dockerfile"
+              buildContext: "backend"
+              containerRegistry: "$(acrServiceConnection)"
+              tags: |
+                $(imageTag)
+                latest
+
+          - task: Docker@2
+            displayName: Build and push frontend image
+            inputs:
+              command: buildAndPush
+              repository: "$(frontendImageName)"
+              dockerfile: "frontend/Dockerfile"
+              buildContext: "frontend"
+              containerRegistry: "$(acrServiceConnection)"
+              tags: |
+                $(imageTag)
+                latest
+
+  - stage: Deploy
+    displayName: Deploy to Azure Container Apps
+    dependsOn: Build
+    jobs:
+      - job: DeployContainerApps
+        displayName: Deploy backend and frontend
+        pool:
+          vmImage: "ubuntu-latest"
+        steps:
+          - task: AzureKeyVault@2
+            displayName: Pull secrets from Key Vault
+            inputs:
+              azureSubscription: "$(azureServiceConnection)"
+              KeyVaultName: "$(keyVaultName)"
+              SecretsFilter: "$(keyVaultSecretsFilter)"
+              RunAsPreJob: false
+
+          - task: AzureCLI@2
+            displayName: Deploy backend container app
+            inputs:
+              azureSubscription: "$(azureServiceConnection)"
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -euo pipefail
+                ACR_USERNAME=$(az acr credential show -n "$(acrName)" --query "username" -o tsv)
+                ACR_PASSWORD=$(az acr credential show -n "$(acrName)" --query "passwords[0].value" -o tsv)
+                BACKEND_IMAGE="$(acrLoginServer)/$(backendImageName):$(imageTag)"
+
+                if az containerapp show -g "$(resourceGroup)" -n "$(backendContainerAppName)" >/dev/null 2>&1; then
+                  az containerapp update \
+                    -g "$(resourceGroup)" \
+                    -n "$(backendContainerAppName)" \
+                    --image "$BACKEND_IMAGE" \
+                    --registry-server "$(acrLoginServer)" \
+                    --registry-username "$ACR_USERNAME" \
+                    --registry-password "$ACR_PASSWORD"
+                else
+                  az containerapp create \
+                    -g "$(resourceGroup)" \
+                    -n "$(backendContainerAppName)" \
+                    --environment "$(containerAppEnv)" \
+                    --image "$BACKEND_IMAGE" \
+                    --registry-server "$(acrLoginServer)" \
+                    --registry-username "$ACR_USERNAME" \
+                    --registry-password "$ACR_PASSWORD" \
+                    --target-port 8000 \
+                    --ingress external
+                fi
+
+                az containerapp secret set \
+                  -g "$(resourceGroup)" \
+                  -n "$(backendContainerAppName)" \
+                  --secrets \
+                    database-url="$(DATABASE_URL)" \
+                    secret-key="$(SECRET_KEY)" \
+                    openai-api-key="$(OPENAI_API_KEY)" \
+                    redis-url="$(REDIS_URL)" \
+                    neo4j-uri="$(NEO4J_URI)" \
+                    neo4j-user="$(NEO4J_USER)" \
+                    neo4j-password="$(NEO4J_PASSWORD)"
+
+                az containerapp update \
+                  -g "$(resourceGroup)" \
+                  -n "$(backendContainerAppName)" \
+                  --set-env-vars \
+                    REDIS_ENABLED="$(REDIS_ENABLED)" \
+                    REDIS_CACHE_TTL="$(REDIS_CACHE_TTL)" \
+                    NEO4J_ENABLED="$(NEO4J_ENABLED)" \
+                  --secret-env-vars \
+                    DATABASE_URL=database-url \
+                    SECRET_KEY=secret-key \
+                    OPENAI_API_KEY=openai-api-key \
+                    REDIS_URL=redis-url \
+                    NEO4J_URI=neo4j-uri \
+                    NEO4J_USER=neo4j-user \
+                    NEO4J_PASSWORD=neo4j-password
+
+          - task: AzureCLI@2
+            displayName: Deploy frontend container app
+            inputs:
+              azureSubscription: "$(azureServiceConnection)"
+              scriptType: bash
+              scriptLocation: inlineScript
+              inlineScript: |
+                set -euo pipefail
+                ACR_USERNAME=$(az acr credential show -n "$(acrName)" --query "username" -o tsv)
+                ACR_PASSWORD=$(az acr credential show -n "$(acrName)" --query "passwords[0].value" -o tsv)
+                FRONTEND_IMAGE="$(acrLoginServer)/$(frontendImageName):$(imageTag)"
+
+                if az containerapp show -g "$(resourceGroup)" -n "$(frontendContainerAppName)" >/dev/null 2>&1; then
+                  az containerapp update \
+                    -g "$(resourceGroup)" \
+                    -n "$(frontendContainerAppName)" \
+                    --image "$FRONTEND_IMAGE" \
+                    --registry-server "$(acrLoginServer)" \
+                    --registry-username "$ACR_USERNAME" \
+                    --registry-password "$ACR_PASSWORD"
+                else
+                  az containerapp create \
+                    -g "$(resourceGroup)" \
+                    -n "$(frontendContainerAppName)" \
+                    --environment "$(containerAppEnv)" \
+                    --image "$FRONTEND_IMAGE" \
+                    --registry-server "$(acrLoginServer)" \
+                    --registry-username "$ACR_USERNAME" \
+                    --registry-password "$ACR_PASSWORD" \
+                    --target-port 3000 \
+                    --ingress external
+                fi
+
+                az containerapp secret set \
+                  -g "$(resourceGroup)" \
+                  -n "$(frontendContainerAppName)" \
+                  --secrets \
+                    openai-api-key="$(OPENAI_API_KEY)"
+
+                az containerapp update \
+                  -g "$(resourceGroup)" \
+                  -n "$(frontendContainerAppName)" \
+                  --set-env-vars \
+                    NEXT_PUBLIC_API_URL="$(NEXT_PUBLIC_API_URL)" \
+                    NEXT_PUBLIC_DEMO_AUDIO_ENABLED="$(NEXT_PUBLIC_DEMO_AUDIO_ENABLED)" \
+                  --secret-env-vars \
+                    OPENAI_API_KEY=openai-api-key
