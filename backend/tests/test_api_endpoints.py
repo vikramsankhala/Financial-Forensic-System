@@ -2,9 +2,7 @@
 import pytest
 from fastapi.testclient import TestClient
 from app.main import app
-from app.database import get_db, Base, engine
-from app.models import User, Role
-from app.auth import create_access_token
+from app.database import Base, engine
 
 # Create test database
 Base.metadata.create_all(bind=engine)
