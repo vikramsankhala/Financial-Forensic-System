@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Real-Time Fraud Detection & Forensic Platform</title>
+    <meta
+      name="description"
+      content="Production-grade real-time fraud detection and forensic investigation platform for financial institutions."
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <script>
+      window.tailwind = {
+        config: {
+          corePlugins: { preflight: false },
+          theme: {
+            extend: {
+              colors: {
+                ink: "#0f172a",
+                slate: "#1e293b",
+                mist: "#f8fafc",
+                accent: "#4f46e5",
+                teal: "#0ea5a4",
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body class="bg-mist text-ink">
+    <header class="hero">
+      <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container py-3">
+          <a class="navbar-brand d-flex align-items-center gap-2" href="#">
+            <span class="brand-mark">FFS</span>
+            <span class="brand-text">Financial Forensic System</span>
+          </a>
+          <button
+            class="navbar-toggler"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navMenu"
+            aria-controls="navMenu"
+            aria-expanded="false"
+            aria-label="Toggle navigation"
+          >
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navMenu">
+            <ul class="navbar-nav ms-auto gap-lg-3">
+              <li class="nav-item"><a class="nav-link" href="#industries">Industries</a></li>
+              <li class="nav-item"><a class="nav-link" href="#architecture">Architecture</a></li>
+              <li class="nav-item"><a class="nav-link" href="#pricing">Pricing</a></li>
+              <li class="nav-item"><a class="nav-link" href="#buyer">Buyer Guide</a></li>
+            </ul>
+            <a class="btn btn-accent ms-lg-4" href="#contact">Request Demo</a>
+          </div>
+        </div>
+      </nav>
+      <div class="container hero-content">
+        <div class="row align-items-center gy-4">
+          <div class="col-lg-6">
+            <p class="eyebrow">Production-Grade Real-Time Fraud Detection &amp; Forensics</p>
+            <h1 class="display-4 fw-bold text-white">
+              AI-native, investigator-first fraud detection with full transparency.
+            </h1>
+            <p class="lead text-white-50">
+              Combine ML-based anomaly detection with rule-based compliance, forensic case
+              management, and real-time dashboards, built for financial crime teams that need
+              explainability, speed, and regulatory confidence.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a class="btn btn-accent btn-lg" href="#contact">Schedule a walkthrough</a>
+              <a class="btn btn-outline-light btn-lg" href="#comparison">See market comparison</a>
+            </div>
+            <div class="hero-metrics mt-4">
+              <div>
+                <h3>&lt;100ms</h3>
+                <span>Transaction scoring p95</span>
+              </div>
+              <div>
+                <h3>18+</h3>
+                <span>Feature signals per transaction</span>
+              </div>
+              <div>
+                <h3>4</h3>
+                <span>Specialized forensic agents</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-card shadow-lg">
+              <h6 class="text-uppercase text-muted mb-3">Executive Snapshot</h6>
+              <div class="d-grid gap-3">
+                <div class="glass-card">
+                  <h5>What it does</h5>
+                  <p>
+                    Real-time transaction scoring, automatic case creation, entity network
+                    visualization, audit-grade evidence trails, and role-based investigator workflows.
+                  </p>
+                </div>
+                <div class="glass-card">
+                  <h5>Why it wins</h5>
+                  <ul class="list-unstyled">
+                    <li>Explainable models and open architecture</li>
+                    <li>Forensic-first console with deep workflow tooling</li>
+                    <li>Fast customization without vendor lock-in</li>
+                  </ul>
+                </div>
+                <div class="glass-card">
+                  <h5>Ideal buyers</h5>
+                  <p>
+                    Mid-tier banks, neo-banks, payment processors, and forensic consulting practices
+                    needing transparency, speed, and regulatory alignment.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-glow"></div>
+    </header>
+
+    <section class="container section">
+      <div class="row gy-4">
+        <div class="col-lg-7">
+          <h2 class="section-title">Real-world applications across regulated industries</h2>
+          <p class="section-subtitle">
+            Designed for high-risk, high-volume financial environments where explainability and
+            speed are purchase-critical.
+          </p>
+          <div class="row g-3" id="industries">
+            <div class="col-md-6">
+              <div class="info-card">
+                <h5>Retail &amp; Commercial Banking</h5>
+                <p>Card fraud, account takeover, RTP/UPI monitoring, branchless onboarding.</p>
+                <span class="tag">Real-time scoring</span>
+                <span class="tag">Audit trails</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-card">
+                <h5>Payment Processors</h5>
+                <p>Sub-100ms scoring, velocity checks, chargeback reduction, watchlists.</p>
+                <span class="tag">High throughput</span>
+                <span class="tag">Rule + ML</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-card">
+                <h5>Fintech &amp; Neo-banks</h5>
+                <p>Fast product iteration, transparent models, explainable alerts.</p>
+                <span class="tag">Customization</span>
+                <span class="tag">Compliance-ready</span>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="info-card">
+                <h5>Forensic Consulting</h5>
+                <p>Multi-client investigation workbench, case timelines, evidence management.</p>
+                <span class="tag">White-label</span>
+                <span class="tag">Investigator UX</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5">
+          <div class="panel-card">
+            <h5>Buyer-critical outcomes</h5>
+            <ul class="list-check">
+              <li>Reduce false positives while preserving detection coverage.</li>
+              <li>Explainable decisions for regulators and internal audit teams.</li>
+              <li>Accelerated investigations with structured workflows and evidence trails.</li>
+              <li>Scalable architecture for 10k+ TPS with horizontal growth.</li>
+              <li>Deployment flexibility: cloud, private cloud, or on-prem.</li>
+            </ul>
+            <div class="mt-4">
+              <h6 class="text-uppercase text-muted">Core stack</h6>
+              <div class="stack-grid">
+                <span>FastAPI</span>
+                <span>PostgreSQL</span>
+                <span>PyTorch</span>
+                <span>Next.js</span>
+                <span>Docker</span>
+                <span>RBAC</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-bg" id="architecture">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-6">
+            <h2 class="section-title">System architecture designed for transparency</h2>
+            <p class="section-subtitle">
+              A clear, inspectable stack that gives risk teams confidence and engineering teams
+              control without the black-box trade-offs.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+              <span class="pill">ML Autoencoder + Feature Engineering</span>
+              <span class="pill">Rule-based Compliance Agent</span>
+              <span class="pill">Case Management &amp; Audit Log</span>
+              <span class="pill">Real-time Dashboard + WebSockets</span>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="diagram-card">
+              <svg viewBox="0 0 680 420" role="img" aria-label="Architecture diagram">
+                <defs>
+                  <linearGradient id="grad" x1="0" y1="0" x2="1" y2="1">
+                    <stop offset="0%" stop-color="#4f46e5" />
+                    <stop offset="100%" stop-color="#0ea5a4" />
+                  </linearGradient>
+                </defs>
+                <rect x="20" y="40" rx="16" ry="16" width="200" height="90" fill="#111827" />
+                <rect x="240" y="40" rx="16" ry="16" width="200" height="90" fill="#111827" />
+                <rect x="460" y="40" rx="16" ry="16" width="200" height="90" fill="#111827" />
+                <text x="120" y="85" fill="#fff" text-anchor="middle" font-size="16">Frontend</text>
+                <text x="120" y="110" fill="#9ca3af" text-anchor="middle" font-size="12">Next.js Console</text>
+                <text x="340" y="85" fill="#fff" text-anchor="middle" font-size="16">API Gateway</text>
+                <text x="340" y="110" fill="#9ca3af" text-anchor="middle" font-size="12">FastAPI + RBAC</text>
+                <text x="560" y="85" fill="#fff" text-anchor="middle" font-size="16">Data Layer</text>
+                <text x="560" y="110" fill="#9ca3af" text-anchor="middle" font-size="12">Postgres + Audit</text>
+
+                <rect x="90" y="190" rx="20" ry="20" width="500" height="150" fill="url(#grad)" opacity="0.15" />
+                <rect x="120" y="210" rx="16" ry="16" width="200" height="90" fill="#0f172a" />
+                <rect x="360" y="210" rx="16" ry="16" width="200" height="90" fill="#0f172a" />
+                <text x="220" y="250" fill="#fff" text-anchor="middle" font-size="15">Anomaly Agent</text>
+                <text x="220" y="270" fill="#94a3b8" text-anchor="middle" font-size="12">Autoencoder + Features</text>
+                <text x="460" y="250" fill="#fff" text-anchor="middle" font-size="15">Investigation Agent</text>
+                <text x="460" y="270" fill="#94a3b8" text-anchor="middle" font-size="12">Cases + Evidence Trail</text>
+
+                <line x1="120" y1="130" x2="340" y2="130" stroke="#475569" stroke-width="2" />
+                <line x1="340" y1="130" x2="560" y2="130" stroke="#475569" stroke-width="2" />
+                <line x1="340" y1="130" x2="220" y2="210" stroke="#475569" stroke-width="2" />
+                <line x1="340" y1="130" x2="460" y2="210" stroke="#475569" stroke-width="2" />
+                <line x1="460" y1="300" x2="560" y2="130" stroke="#475569" stroke-width="2" />
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div class="row g-4 mt-4">
+          <div class="col-md-4">
+            <div class="stat-card">
+              <h3>18+ features</h3>
+              <p>Behavioral, device, geo, velocity, and network signals per transaction.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <h3>Explainable scoring</h3>
+              <p>Feature contribution analysis with human-readable reasons.</p>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="stat-card">
+              <h3>Immutable audit log</h3>
+              <p>Before/after state snapshots for regulatory-grade evidence trails.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="process">
+      <div class="row gy-4 align-items-center">
+        <div class="col-lg-6">
+          <h2 class="section-title">End-to-end process flow</h2>
+          <p class="section-subtitle">
+            From transaction ingestion to automated case creation, every step is traceable and
+            optimized for investigator productivity.
+          </p>
+          <div class="process-list">
+            <div><span>1</span> Ingest &amp; validate transactions</div>
+            <div><span>2</span> Engineer &amp; normalize features</div>
+            <div><span>3</span> Autoencoder anomaly detection</div>
+            <div><span>4</span> Risk scoring &amp; explainability</div>
+            <div><span>5</span> Alert dispatch &amp; dashboard update</div>
+            <div><span>6</span> Auto-case creation &amp; audit log</div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="diagram-card">
+            <svg viewBox="0 0 680 360" role="img" aria-label="Process flow diagram">
+              <rect x="40" y="40" width="600" height="280" rx="20" fill="#0f172a" />
+              <g fill="#e2e8f0" font-size="14">
+                <text x="80" y="90">Transaction Feed</text>
+                <text x="80" y="140">Feature Engineering</text>
+                <text x="80" y="190">ML Scoring</text>
+                <text x="80" y="240">Alert + Dashboard</text>
+                <text x="80" y="290">Case &amp; Actions</text>
+              </g>
+              <g stroke="#38bdf8" stroke-width="3">
+                <line x1="260" y1="80" x2="600" y2="80" />
+                <line x1="260" y1="130" x2="600" y2="130" />
+                <line x1="260" y1="180" x2="600" y2="180" />
+                <line x1="260" y1="230" x2="600" y2="230" />
+                <line x1="260" y1="280" x2="600" y2="280" />
+              </g>
+              <g fill="#0f172a">
+                <rect x="290" y="60" width="90" height="40" rx="12" fill="#4f46e5" />
+                <rect x="410" y="60" width="90" height="40" rx="12" fill="#0ea5a4" />
+                <rect x="530" y="60" width="90" height="40" rx="12" fill="#f59e0b" />
+                <text x="335" y="85" fill="#fff" text-anchor="middle">API</text>
+                <text x="455" y="85" fill="#fff" text-anchor="middle">ML</text>
+                <text x="575" y="85" fill="#fff" text-anchor="middle">Case</text>
+              </g>
+            </svg>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-bg">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-5">
+            <h2 class="section-title">Real-time dashboard intelligence</h2>
+            <p class="section-subtitle">
+              WebSocket-driven feeds, KPI tiles, risk distribution, and case updates with
+              sub-second latency.
+            </p>
+            <div class="dashboard-kpis">
+              <div>
+                <h6>Total transactions</h6>
+                <span>1,250</span>
+              </div>
+              <div>
+                <h6>High-risk alerts</h6>
+                <span>45</span>
+              </div>
+              <div>
+                <h6>Open cases</h6>
+                <span>12</span>
+              </div>
+              <div>
+                <h6>Avg response</h6>
+                <span>7m 12s</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="dashboard-card">
+              <div class="dashboard-header">
+                <span>Live Alerts</span>
+                <span class="badge bg-danger">CRITICAL</span>
+              </div>
+              <div class="dashboard-body">
+                <div class="alert-row critical">
+                  <span>TXN-8921</span>
+                  <span>$5,000</span>
+                  <span>Electronics</span>
+                  <span>0.85</span>
+                  <button class="btn btn-sm btn-light">View</button>
+                </div>
+                <div class="alert-row high">
+                  <span>TXN-7433</span>
+                  <span>$1,780</span>
+                  <span>Travel</span>
+                  <span>0.71</span>
+                  <button class="btn btn-sm btn-light">View</button>
+                </div>
+                <div class="alert-row medium">
+                  <span>TXN-5520</span>
+                  <span>$420</span>
+                  <span>Retail</span>
+                  <span>0.44</span>
+                  <button class="btn btn-sm btn-light">View</button>
+                </div>
+              </div>
+              <div class="dashboard-footer">
+                <div class="risk-chart">
+                  <svg viewBox="0 0 120 120" role="img" aria-label="Risk distribution chart">
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="#1e293b" stroke-width="16" />
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="#ef4444" stroke-width="16"
+                      stroke-dasharray="90 300" stroke-linecap="round" />
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="#f97316" stroke-width="16"
+                      stroke-dasharray="70 300" stroke-linecap="round" />
+                    <circle cx="60" cy="60" r="50" fill="none" stroke="#facc15" stroke-width="16"
+                      stroke-dasharray="60 300" stroke-linecap="round" />
+                  </svg>
+                  <div class="risk-legend">
+                    <span><i class="dot critical"></i>Critical</span>
+                    <span><i class="dot high"></i>High</span>
+                    <span><i class="dot medium"></i>Medium</span>
+                    <span><i class="dot low"></i>Low</span>
+                  </div>
+                </div>
+                <div class="chart-bars">
+                  <div style="--value: 82%">
+                    <span>Latency</span>
+                    <em>82ms</em>
+                  </div>
+                  <div style="--value: 64%">
+                    <span>Alert rate</span>
+                    <em>3.1%</em>
+                  </div>
+                  <div style="--value: 48%">
+                    <span>FP rate</span>
+                    <em>1.4%</em>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="comparison">
+      <h2 class="section-title">Global market comparison</h2>
+      <p class="section-subtitle">
+        How the platform compares with global EFM suites, AI-first vendors, and open-source stacks.
+      </p>
+      <div class="table-responsive">
+        <table class="table comparison-table">
+          <thead>
+            <tr>
+              <th>Category</th>
+              <th>Utility &amp; strengths</th>
+              <th>Trade-offs</th>
+              <th>Typical pricing*</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Legacy EFM Suites<br /><small>FICO, SAS, NICE Actimize</small></td>
+              <td>Broad channel coverage, consortium intelligence, managed services.</td>
+              <td>Opaque models, long change cycles, heavy services dependency.</td>
+              <td>High six to seven figures annually, plus services.</td>
+            </tr>
+            <tr>
+              <td>AI-first Platforms<br /><small>Feedzai, Featurespace</small></td>
+              <td>Strong ML detection, real-time scoring, adaptive models.</td>
+              <td>Limited forensic workflows, less transparency, cost at scale.</td>
+              <td>Mid to high six figures annually, volume-based.</td>
+            </tr>
+            <tr>
+              <td>Open-source + Internal Builds</td>
+              <td>Full control, tailored workflows, lower licensing costs.</td>
+              <td>High engineering burden, slower time-to-value, ops risk.</td>
+              <td>Engineering-heavy; infrastructure &amp; staffing costs dominate.</td>
+            </tr>
+            <tr class="highlight">
+              <td>This Platform</td>
+              <td>Explainable ML, forensic console, open architecture, rapid customization.</td>
+              <td>Requires onboarding to align with customer data and workflows.</td>
+              <td>$50K-$150K starter, $300K-$500K growth, $1M+ enterprise.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="footnote">
+        *Pricing is indicative for comparison only and varies by volume, deployment, and services.
+        Validate directly with vendors for exact quotes.
+      </p>
+    </section>
+
+    <section class="section soft-bg" id="pricing">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-5">
+            <h2 class="section-title">Investment-ready pricing model</h2>
+            <p class="section-subtitle">
+              Predictable SaaS tiers with optional services and managed model operations for scale.
+            </p>
+            <div class="pricing-note">
+              <h6>Included in every tier</h6>
+              <ul>
+                <li>Real-time scoring + dashboard</li>
+                <li>Case management + audit logs</li>
+                <li>RBAC and compliance reporting hooks</li>
+                <li>API access and integration adapters</li>
+              </ul>
+            </div>
+          </div>
+          <div class="col-lg-7">
+            <div class="row g-3">
+              <div class="col-md-4">
+                <div class="price-card">
+                  <h5>Starter</h5>
+                  <h2>$50-150K</h2>
+                  <p>Up to 1M transactions / month</p>
+                  <ul>
+                    <li>Core detection + case management</li>
+                    <li>5 investigator seats</li>
+                    <li>Standard dashboards</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="price-card featured">
+                  <h5>Growth</h5>
+                  <h2>$300-500K</h2>
+                  <p>Up to 10M transactions / month</p>
+                  <ul>
+                    <li>Advanced analytics + network graph</li>
+                    <li>15 investigator seats</li>
+                    <li>Priority support</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="price-card">
+                  <h5>Enterprise</h5>
+                  <h2>$1M+</h2>
+                  <p>Unlimited volume &amp; seats</p>
+                  <ul>
+                    <li>Custom models + integrations</li>
+                    <li>Dedicated success team</li>
+                    <li>On-prem / private cloud</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div class="roi-card mt-4">
+              <h6>ROI impact model</h6>
+              <div class="roi-grid">
+                <div>
+                  <span class="roi-label">False positives</span>
+                  <div class="roi-bar" style="--value: 40%"></div>
+                  <small>30-50% reduction</small>
+                </div>
+                <div>
+                  <span class="roi-label">Investigation time</span>
+                  <div class="roi-bar" style="--value: 35%"></div>
+                  <small>20-35% faster</small>
+                </div>
+                <div>
+                  <span class="roi-label">Model transparency</span>
+                  <div class="roi-bar" style="--value: 85%"></div>
+                  <small>Regulator-ready</small>
+                </div>
+              </div>
+              <p class="footnote">
+                ROI outcomes depend on baseline processes and portfolio risk. Use pilot data to
+                validate.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section" id="buyer">
+      <div class="row gy-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Buyer decision checklist</h2>
+          <p class="section-subtitle">
+            Structured evaluation criteria to support procurement, compliance, and security reviews.
+          </p>
+          <div class="checklist-grid">
+            <div class="checklist-card">
+              <h6>Detection &amp; Accuracy</h6>
+              <ul>
+                <li>Explainable scoring with feature contributions</li>
+                <li>Threshold and rule configurability</li>
+                <li>Low false positive rates</li>
+              </ul>
+            </div>
+            <div class="checklist-card">
+              <h6>Forensic Workflow</h6>
+              <ul>
+                <li>Case lifecycle management</li>
+                <li>Entity and network visualization</li>
+                <li>Immutable audit logs</li>
+              </ul>
+            </div>
+            <div class="checklist-card">
+              <h6>Compliance &amp; Security</h6>
+              <ul>
+                <li>RBAC with clear permissions</li>
+                <li>Encryption in transit and at rest</li>
+                <li>SOC2/ISO roadmap alignment</li>
+              </ul>
+            </div>
+            <div class="checklist-card">
+              <h6>Operations &amp; Scale</h6>
+              <ul>
+                <li>Sub-100ms scoring latency</li>
+                <li>Monitoring &amp; drift detection</li>
+                <li>Resilient APIs &amp; failover</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="panel-card">
+            <h5>Implementation timeline</h5>
+            <div class="timeline">
+              <div>
+                <span>Week 0-2</span>
+                <p>Data ingestion setup, baseline scoring, security review.</p>
+              </div>
+              <div>
+                <span>Week 3-6</span>
+                <p>Model calibration, rule tuning, investigator workflow alignment.</p>
+              </div>
+              <div>
+                <span>Week 7-12</span>
+                <p>Pilot evaluation, KPI validation, production readiness.</p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <h6>Test coverage snapshot</h6>
+              <div class="test-grid">
+                <div>
+                  <strong>Backend</strong>
+                  <span>Feature engineering, scoring, API endpoints</span>
+                </div>
+                <div>
+                  <strong>Frontend</strong>
+                  <span>Build, routing, auth flow, component rendering</span>
+                </div>
+                <div>
+                  <strong>Integration</strong>
+                  <span>Core imports and dependency checks</span>
+                </div>
+              </div>
+              <p class="footnote mt-3">
+                Build and runtime tests are documented with clear execution commands for internal
+                validation.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-bg">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-6">
+            <h2 class="section-title">Security, compliance &amp; audit readiness</h2>
+            <p class="section-subtitle">
+              Built for regulated environments with audit-grade traceability and a staged SOC2/ISO
+              roadmap.
+            </p>
+            <div class="compliance-grid">
+              <div>
+                <h6>Authentication</h6>
+                <p>JWT + role-based access control for investigators and admins.</p>
+              </div>
+              <div>
+                <h6>Audit Log</h6>
+                <p>Immutable before/after snapshots for every sensitive action.</p>
+              </div>
+              <div>
+                <h6>Data Protection</h6>
+                <p>TLS 1.3 in transit, encryption at rest, secrets management.</p>
+              </div>
+              <div>
+                <h6>Monitoring</h6>
+                <p>Prometheus metrics, drift detection hooks, structured logging.</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="diagram-card">
+              <svg viewBox="0 0 640 360" role="img" aria-label="Compliance roadmap diagram">
+                <rect x="40" y="60" width="560" height="240" rx="22" fill="#0f172a" />
+                <g fill="#e2e8f0" font-size="14">
+                  <text x="80" y="120">Months 0-6</text>
+                  <text x="80" y="180">Months 6-12</text>
+                  <text x="80" y="240">Months 12-18+</text>
+                </g>
+                <g fill="#4f46e5">
+                  <rect x="260" y="90" width="300" height="36" rx="10" />
+                  <rect x="260" y="150" width="260" height="36" rx="10" fill="#0ea5a4" />
+                  <rect x="260" y="210" width="220" height="36" rx="10" fill="#f59e0b" />
+                </g>
+                <g fill="#0f172a" font-size="12">
+                  <text x="410" y="113" text-anchor="middle" fill="#fff">MFA + RBAC + Audit Logs</text>
+                  <text x="390" y="173" text-anchor="middle" fill="#fff">Policies + DR/BCP + Training</text>
+                  <text x="370" y="233" text-anchor="middle" fill="#fff">SOC2/ISO Readiness</text>
+                </g>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <div class="row gy-4">
+        <div class="col-lg-6">
+          <h2 class="section-title">Integration &amp; deployment options</h2>
+          <p class="section-subtitle">
+            Seamlessly connect to core banking systems, payment networks, and external compliance
+            tools.
+          </p>
+          <div class="integration-grid">
+            <div>
+              <h6>Inbound feeds</h6>
+              <p>API, webhook, message queue, batch imports.</p>
+            </div>
+            <div>
+              <h6>Outbound actions</h6>
+              <p>Block transactions, freeze accounts, notify investigators.</p>
+            </div>
+            <div>
+              <h6>Deployment</h6>
+              <p>Fly.io, AWS, Azure, on-prem, or private cloud.</p>
+            </div>
+            <div>
+              <h6>Observability</h6>
+              <p>Prometheus metrics, OpenTelemetry tracing, JSON logs.</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="panel-card">
+            <h5>Utility matrix</h5>
+            <div class="table-responsive">
+              <table class="table matrix-table">
+                <thead>
+                  <tr>
+                    <th>Capability</th>
+                    <th>Utility</th>
+                    <th>Benefit</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>Entity network graph</td>
+                    <td>Fraud ring detection</td>
+                    <td>Faster escalation</td>
+                  </tr>
+                  <tr>
+                    <td>Auto-case creation</td>
+                    <td>Operational efficiency</td>
+                    <td>Lower MTTR</td>
+                  </tr>
+                  <tr>
+                    <td>Explainable ML</td>
+                    <td>Regulator confidence</td>
+                    <td>Audit-ready decisions</td>
+                  </tr>
+                  <tr>
+                    <td>Real-time alerts</td>
+                    <td>Immediate response</td>
+                    <td>Reduced loss</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <p class="footnote">
+              Configurable to align with local regulations and internal risk policies.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section" id="contact">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-7">
+            <h2 class="section-title text-white">Ready for a live demo?</h2>
+            <p class="section-subtitle text-white-50">
+              Engage with a full forensic workflow walkthrough and receive a tailored ROI model
+              for your institution.
+            </p>
+            <div class="d-flex flex-wrap gap-3">
+              <a class="btn btn-light btn-lg" href="mailto:contact@yourcompany.com">Email Sales</a>
+              <a class="btn btn-outline-light btn-lg" href="#pricing">Review pricing</a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="contact-card">
+              <h5>What you get</h5>
+              <ul>
+                <li>Custom threat model + risk workshop</li>
+                <li>Proof-of-value plan with success metrics</li>
+                <li>Deployment blueprint &amp; integration checklist</li>
+                <li>Security and compliance mapping</li>
+              </ul>
+              <p class="footnote">
+                Replace contact details with your sales team information.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <h6>Financial Forensic System</h6>
+            <p>Real-time fraud detection, explainable ML, and forensic-grade workflows.</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Coverage</h6>
+            <p>Cards, ACH, RTP, UPI, wire, mobile payments.</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Contact</h6>
+            <p>contact@yourcompany.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>(c) 2026 Financial Forensic System. All rights reserved.</span>
+          <span>Confidential marketing material.</span>
+        </div>
+      </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

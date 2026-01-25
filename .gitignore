@@ -76,3 +76,6 @@ htmlcov/
 # Alembic
 alembic/versions/*.pyc
 
+
+# Local Netlify folder
+.netlify
