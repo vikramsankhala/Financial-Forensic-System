@@ -157,6 +157,31 @@ export default function ExecutiveSummaryPage() {
     'Deployment flexibility: API-first, modular components',
   ];
 
+  const scalePlan = {
+    technical: [
+      'Multi-tenant SaaS with tenant-isolated data and RBAC',
+      'Autoscaling services on Kubernetes with global load balancing',
+      'Streaming ingestion via Kafka/Redpanda and real-time scoring workers',
+      'PostgreSQL + TimescaleDB for hot data, object storage for cold archives',
+      'CDN + edge caching for dashboards, WebSocket fanout for live alerts',
+      'Observability with SLOs, tracing, and automated incident response',
+    ],
+    financial: [
+      'Cloud spend tied to volume (per-transaction and per-seat pricing)',
+      'Tiered plans: Starter, Growth, Enterprise with usage-based overage',
+      'Unit economics tracked by cost per alert, cost per case, and margin',
+      'Reserved capacity + committed use discounts to reduce COGS',
+      'FinOps governance: budgets, alerts, and cost anomaly detection',
+    ],
+    business: [
+      'Go-to-market: pilots, then land-and-expand across business units',
+      'Security & compliance: SOC 2, ISO 27001, and data residency options',
+      'Partner ecosystem: SIEM, data warehouse, and payment platform APIs',
+      'Customer success: onboarding playbooks and quarterly value reviews',
+      'Roadmap: AI-assisted triage, automated reporting, and workflow templates',
+    ],
+  };
+
   return (
     <Layout
       breadcrumbs={[
@@ -328,6 +353,78 @@ export default function ExecutiveSummaryPage() {
                   </ListItem>
                 ))}
               </List>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Cloud-Hosted SaaS Scaling Plan */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Scaling to a Cloud-Hosted SaaS Platform
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            A phased SaaS plan enables millions of concurrent users with global availability,
+            strong tenant isolation, and predictable cost structure while maintaining compliance
+            and enterprise-grade reliability.
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Technical Plan
+                  </Typography>
+                  <List>
+                    {scalePlan.technical.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Financial Plan
+                  </Typography>
+                  <List>
+                    {scalePlan.financial.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Business Plan
+                  </Typography>
+                  <List>
+                    {scalePlan.business.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
             </Grid>
           </Grid>
         </Paper>
