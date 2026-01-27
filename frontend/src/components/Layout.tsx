@@ -280,6 +280,24 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
           </Breadcrumbs>
         )}
         {children}
+        <Box
+          sx={{
+            mt: 6,
+            pt: 3,
+            borderTop: '1px solid',
+            borderColor: 'divider',
+          }}
+        >
+          <Typography variant="h6" gutterBottom>
+            Credits
+          </Typography>
+          <Typography variant="body1" sx={{ fontWeight: 600 }}>
+            Project Conceived, Designed and Developed by Vikram Singh Sankhala, Solinexta@gmail.com.
+          </Typography>
+          <Typography variant="body2" color="text.secondary">
+            For any queries, please WhatsApp +91 9819543261.
+          </Typography>
+        </Box>
       </Box>
 
       {/* AI Assistant Floating Button */}
