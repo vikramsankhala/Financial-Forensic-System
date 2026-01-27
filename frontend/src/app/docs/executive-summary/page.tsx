@@ -162,6 +162,26 @@ export default function ExecutiveSummaryPage() {
     'Deployment flexibility: API-first, modular components',
   ];
 
+  const rulesSignals = {
+    rules: [
+      'Velocity limits (e.g., >50 transactions in 24h or >10 in 1h)',
+      'Geographic consistency checks (impossible travel in <2 hours)',
+      'Restricted merchant categories (e.g., gambling, adult, crypto)',
+      'Sanctions/PEP screening hooks (pluggable external lists)',
+    ],
+    mlSignals: [
+      'Autoencoder anomaly score + reconstruction error thresholds',
+      'Risk tiers: low / medium / high / critical',
+      'Decisioning: approve, monitor, review',
+      'Explainable feature contributions for alerts',
+    ],
+    networkSignals: [
+      'Entity relationship graph across customer, account, device, IP, merchant',
+      'Fraud ring detection from highly connected clusters',
+      'Linked-entity exposure analysis for case prioritization',
+    ],
+  };
+
   const scalePlan = {
     technical: [
       'Multi-tenant SaaS with tenant-isolated data and RBAC',
@@ -434,6 +454,78 @@ export default function ExecutiveSummaryPage() {
                   </Typography>
                   <List>
                     {scalePlan.business.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Rules & Signals */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Rules, Velocity Mapping, and Ring Fraud Signals
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            The platform combines rule-based controls, ML anomaly scoring, and entity network
+            analysis to detect burst behavior, impossible travel, restricted categories, and
+            coordinated fraud rings.
+          </Typography>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Rule-Based Checks
+                  </Typography>
+                  <List>
+                    {rulesSignals.rules.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    ML Risk Scoring
+                  </Typography>
+                  <List>
+                    {rulesSignals.mlSignals.map((item, index) => (
+                      <ListItem key={index}>
+                        <ListItemIcon>
+                          <CheckIcon color="primary" />
+                        </ListItemIcon>
+                        <ListItemText primary={item} />
+                      </ListItem>
+                    ))}
+                  </List>
+                </CardContent>
+              </Card>
+            </Grid>
+            <Grid item xs={12} md={4}>
+              <Card variant="outlined" sx={{ height: '100%' }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    Network & Ring Fraud
+                  </Typography>
+                  <List>
+                    {rulesSignals.networkSignals.map((item, index) => (
                       <ListItem key={index}>
                         <ListItemIcon>
                           <CheckIcon color="primary" />
