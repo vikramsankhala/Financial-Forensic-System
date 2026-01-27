@@ -66,6 +66,7 @@ export default function DashboardPage() {
   const [controlError, setControlError] = useState<string | null>(null);
   const [liveSource, setLiveSource] = useState<'binance' | 'kraken' | 'multi'>('binance');
   const demoMode = process.env.NEXT_PUBLIC_DEMO_DATA === 'true';
+  const controlEnabled = Boolean(process.env.NEXT_PUBLIC_CONTROL_URL);
 
   // Fetch transactions
   const { data: transactionsData } = useQuery({
@@ -98,9 +99,14 @@ export default function DashboardPage() {
     queryKey: ['app-control-status'],
     queryFn: () => control.status(),
     refetchInterval: 5000,
+    enabled: controlEnabled,
   });
 
   useEffect(() => {
+    if (!controlEnabled) {
+      setControlError('Control service is not configured for this environment.');
+      return;
+    }
     if (appStatusError) {
       setControlError(
         'Control service unreachable. Enable Docker Desktop TCP 2375 and refresh.'
@@ -109,7 +115,7 @@ export default function DashboardPage() {
     }
 
     setControlError(null);
-  }, [appStatusError]);
+  }, [appStatusError, controlEnabled]);
 
   useEffect(() => {
     const feedSource = feedStatus?.settings?.live_source;
@@ -254,7 +260,7 @@ export default function DashboardPage() {
     if (autoStartAttempted) {
       return;
     }
-    if (appStatus && appStatus.running === false && !appActionLoading) {
+    if (controlEnabled && appStatus && appStatus.running === false && !appActionLoading) {
       setAutoStartAttempted(true);
       control
         .start()
@@ -358,7 +364,7 @@ export default function DashboardPage() {
             variant="contained"
             color="primary"
             onClick={handleStartApp}
-            disabled={appActionLoading || appStatusFetching || appRunning}
+            disabled={!controlEnabled || appActionLoading || appStatusFetching || appRunning}
           >
             Start Backend
           </Button>
@@ -366,7 +372,7 @@ export default function DashboardPage() {
             variant="outlined"
             color="warning"
             onClick={handleStopApp}
-            disabled={appActionLoading || appStatusFetching || !appRunning}
+            disabled={!controlEnabled || appActionLoading || appStatusFetching || !appRunning}
           >
             Stop Backend
           </Button>
