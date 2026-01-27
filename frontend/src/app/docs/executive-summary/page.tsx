@@ -598,6 +598,29 @@ export default function ExecutiveSummaryPage() {
           </Grid>
         </Paper>
 
+        {/* Credits */}
+        <Paper
+          sx={{
+            p: 4,
+            mb: 4,
+            mt: 4,
+            borderLeft: '6px solid',
+            borderColor: 'primary.main',
+            bgcolor: 'background.paper',
+          }}
+        >
+          <Typography variant="h5" gutterBottom>
+            Credits
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="h6" sx={{ fontWeight: 700 }} gutterBottom>
+            Project Conceived, Designed and Developed by Vikram Singh Sankhala, Solinexta@gmail.com.
+          </Typography>
+          <Typography variant="body1" color="text.secondary">
+            For any queries, please WhatsApp +91 9819543261.
+          </Typography>
+        </Paper>
+
         {/* Call to Action */}
         <Box mt={4} textAlign="center">
           <Paper sx={{ p: 3, bgcolor: 'primary.light', color: 'primary.contrastText' }}>
