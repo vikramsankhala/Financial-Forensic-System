@@ -14,6 +14,7 @@ import {
   ListItemText,
   Chip,
   Divider,
+  Stack,
 } from '@mui/material';
 import {
   Security as SecurityIcon,
@@ -22,6 +23,15 @@ import {
   Assessment as AssessmentIcon,
   Group as GroupIcon,
   CheckCircle as CheckIcon,
+  Timeline as TimelineIcon,
+  Hub as HubIcon,
+  Visibility as VisibilityIcon,
+  PlayCircle as PlayCircleIcon,
+  Insights as InsightsIcon,
+  Public as PublicIcon,
+  Business as BusinessIcon,
+  Gavel as GavelIcon,
+  CompareArrows as CompareIcon,
 } from '@mui/icons-material';
 import Layout from '@/components/Layout';
 
@@ -77,6 +87,76 @@ export default function ExecutiveSummaryPage() {
     'Extensible architecture for custom integrations',
   ];
 
+  const appIllustrations = [
+    {
+      icon: <TimelineIcon />,
+      title: 'Real-time Monitoring',
+      description: 'Streaming risk signals with sub-second alerting and prioritization.',
+    },
+    {
+      icon: <HubIcon />,
+      title: 'Entity Network Graphs',
+      description: 'Relationship mapping across accounts, devices, and merchants.',
+    },
+    {
+      icon: <VisibilityIcon />,
+      title: 'Investigation Workbench',
+      description: 'Case timelines, evidence trails, and analyst actions in one view.',
+    },
+  ];
+
+  const appUseCases = [
+    'Card-not-present velocity spikes and merchant abuse',
+    'Account takeover signals and device anomalies',
+    'RTP/ACH fraud monitoring and rapid response',
+    'Fraud ring detection via entity relationship mapping',
+  ];
+
+  const demoIllustrations = [
+    {
+      icon: <PlayCircleIcon />,
+      title: 'Live Demo Stream',
+      description: 'Synthetic scenarios plus public exchange feeds with derived scores.',
+    },
+    {
+      icon: <InsightsIcon />,
+      title: 'Risk Scoring Overlay',
+      description: 'Explainable risk levels and indicators for walkthroughs.',
+    },
+    {
+      icon: <PublicIcon />,
+      title: 'Public Data Feeds',
+      description: 'Optional live price feeds from Binance and Kraken.',
+    },
+  ];
+
+  const demoUseCases = [
+    'Investor and customer walkthroughs without production data',
+    'Pilot onboarding to validate workflows and integrations',
+    'Training analysts on alert triage and case handling',
+  ];
+
+  const targetEntities = [
+    { icon: <BusinessIcon />, title: 'Banks & Credit Unions', description: 'Retail, commercial, and regional institutions' },
+    { icon: <AssessmentIcon />, title: 'Payment Processors', description: 'Card networks, PSPs, and acquirers' },
+    { icon: <SecurityIcon />, title: 'Fintech & Wallets', description: 'Neobanks, wallets, and lending platforms' },
+    { icon: <GavelIcon />, title: 'Compliance & Risk Teams', description: 'AML, fraud ops, and investigations' },
+  ];
+
+  const competitors = [
+    'Rules-only fraud engines and legacy AML suites',
+    'Standalone case management and investigation tools',
+    'SIEM-style monitoring without financial context',
+    'Data-warehouse + BI stacks with manual workflows',
+  ];
+
+  const differentiation = [
+    'Unified real-time scoring, alerting, and case management',
+    'Entity network analysis embedded into analyst workflow',
+    'Hybrid ML + rules with explainable risk signals',
+    'Deployment flexibility: API-first, modular components',
+  ];
+
   return (
     <Layout
       breadcrumbs={[
@@ -99,6 +179,158 @@ export default function ExecutiveSummaryPage() {
             organizations to detect, investigate, and prevent financial fraud in real-time.
           </Typography>
         </Box>
+
+        {/* What the Application Does */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            What the Application Does
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            A real-time fraud detection and forensic investigation platform that turns streaming
+            transactions into prioritized alerts and actionable cases, with built-in evidence
+            trails and entity relationships.
+          </Typography>
+          <Grid container spacing={3} sx={{ mb: 2 }}>
+            {appIllustrations.map((item, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card variant="outlined" sx={{ height: '100%' }}>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Box sx={{ color: 'primary.main', mr: 2 }}>{item.icon}</Box>
+                      <Typography variant="h6">{item.title}</Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Typography variant="subtitle2" gutterBottom>
+            Use Cases
+          </Typography>
+          <List>
+            {appUseCases.map((useCase, index) => (
+              <ListItem key={index}>
+                <ListItemIcon>
+                  <CheckIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary={useCase} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+
+        {/* What the Demo Version Does */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            What the Demo Version Does
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            The demo experience showcases the full UI and workflow using synthetic data scenarios
+            and optional public exchange feeds. It is designed for safe walkthroughs without
+            production data exposure.
+          </Typography>
+          <Grid container spacing={3} sx={{ mb: 2 }}>
+            {demoIllustrations.map((item, index) => (
+              <Grid item xs={12} md={4} key={index}>
+                <Card variant="outlined" sx={{ height: '100%' }}>
+                  <CardContent>
+                    <Box display="flex" alignItems="center" mb={2}>
+                      <Box sx={{ color: 'primary.main', mr: 2 }}>{item.icon}</Box>
+                      <Typography variant="h6">{item.title}</Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      {item.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Typography variant="subtitle2" gutterBottom>
+            Use Cases
+          </Typography>
+          <List>
+            {demoUseCases.map((useCase, index) => (
+              <ListItem key={index}>
+                <ListItemIcon>
+                  <CheckIcon color="primary" />
+                </ListItemIcon>
+                <ListItemText primary={useCase} />
+              </ListItem>
+            ))}
+          </List>
+        </Paper>
+
+        {/* Target Entities, Market Size, Competitors */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Target Entities, Market Size, and Competition
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="subtitle2" gutterBottom>
+            Target Entities
+          </Typography>
+          <Grid container spacing={2} sx={{ mb: 3 }}>
+            {targetEntities.map((entity, index) => (
+              <Grid item xs={12} sm={6} md={3} key={index}>
+                <Card variant="outlined" sx={{ height: '100%' }}>
+                  <CardContent>
+                    <Box sx={{ color: 'primary.main', mb: 1 }}>{entity.icon}</Box>
+                    <Typography variant="h6">{entity.title}</Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {entity.description}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
+          </Grid>
+          <Typography variant="subtitle2" gutterBottom>
+            Market Size (replace with sourced estimates)
+          </Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3 }}>
+            <Chip label="TAM: $XXB global fraud/AML software spend" color="primary" variant="outlined" />
+            <Chip label="SAM: $XB mid-market financial institutions" variant="outlined" />
+            <Chip label="SOM: $XB initial reachable segment" variant="outlined" />
+          </Stack>
+          <Grid container spacing={3}>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle2" gutterBottom>
+                Competitive Set
+              </Typography>
+              <List>
+                {competitors.map((item, index) => (
+                  <ListItem key={index}>
+                    <ListItemIcon>
+                      <CompareIcon color="primary" />
+                    </ListItemIcon>
+                    <ListItemText primary={item} />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+            <Grid item xs={12} md={6}>
+              <Typography variant="subtitle2" gutterBottom>
+                Product Differentiation
+              </Typography>
+              <List>
+                {differentiation.map((item, index) => (
+                  <ListItem key={index}>
+                    <ListItemIcon>
+                      <CheckIcon color="success" />
+                    </ListItemIcon>
+                    <ListItemText primary={item} />
+                  </ListItem>
+                ))}
+              </List>
+            </Grid>
+          </Grid>
+        </Paper>
 
         {/* Key Features */}
         <Paper sx={{ p: 4, mb: 4 }}>
