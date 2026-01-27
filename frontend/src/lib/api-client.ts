@@ -11,6 +11,15 @@ const api = axios.create({
 
 const unwrap = <T>(response: { data: T }) => response.data;
 
+const controlBaseURL =
+  process.env.NEXT_PUBLIC_CONTROL_URL || 'http://localhost:9000';
+const controlApi = axios.create({
+  baseURL: controlBaseURL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
 export const transactions = {
   list: (params: Record<string, any> = {}) =>
     api.get('/transactions', { params }).then(unwrap),
@@ -34,4 +43,16 @@ export const entities = {
   getNetwork: (id: number) => api.get(`/entities/${id}/network`).then(unwrap),
   // Backend endpoint not yet implemented; will return 404 until added server-side.
   block: (id: number) => api.post(`/entities/${id}/block`).then(unwrap),
+};
+
+export const demoFeed = {
+  status: () => api.get('/demo-feed/status').then(unwrap),
+  start: (payload: Record<string, any> = {}) => api.post('/demo-feed/start', payload).then(unwrap),
+  stop: () => api.post('/demo-feed/stop').then(unwrap),
+};
+
+export const control = {
+  status: () => controlApi.get('/control/backend/status').then(unwrap),
+  start: () => controlApi.post('/control/backend/start').then(unwrap),
+  stop: () => controlApi.post('/control/backend/stop').then(unwrap),
 };
