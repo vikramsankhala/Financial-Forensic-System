@@ -53,7 +53,7 @@ export default function NetworkEntityAnalysisPage() {
   });
 
   // Fetch entity network
-  const { data: networkData } = useQuery({
+  const { data: networkData } = useQuery<EntityNetworkResponse>({
     queryKey: ['entity-network', selectedEntityId],
     queryFn: () => entities.getNetwork(selectedEntityId!),
     enabled: !!selectedEntityId,
@@ -93,17 +93,17 @@ export default function NetworkEntityAnalysisPage() {
               group: 1,
               risk: 'high', // Mock risk level
             },
-            ...networkData.links.map((link) => ({
-              id: link.entity_id,
-              name: link.entity_id,
+            ...networkData.links.map((link: EntityNetworkResponse['links'][number]) => ({
+              id: link.to_entity_id,
+              name: link.to_entity_id,
               type: link.entity_type,
               group: 2,
               risk: 'medium',
             })),
           ],
-          links: networkData.links.map((link) => ({
+          links: networkData.links.map((link: EntityNetworkResponse['links'][number]) => ({
             source: entity.entity_id,
-            target: link.entity_id,
+            target: link.to_entity_id,
             relationship: link.relationship_type,
           })),
         }
@@ -328,10 +328,12 @@ export default function NetworkEntityAnalysisPage() {
                       Top Counterparties
                     </Typography>
                     <List>
-                      {networkData.links.slice(0, 5).map((link, index) => (
+                      {networkData.links
+                        .slice(0, 5)
+                        .map((link: EntityNetworkResponse['links'][number], index) => (
                         <ListItem key={index}>
                           <ListItemText
-                            primary={link.entity_id}
+                            primary={link.to_entity_id}
                             secondary={`${link.entity_type} • ${link.relationship_type || 'Related'}`}
                           />
                           <Chip label="Medium Risk" color="warning" size="small" />

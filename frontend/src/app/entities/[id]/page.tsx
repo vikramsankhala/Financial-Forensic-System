@@ -27,7 +27,7 @@ import dynamic from 'next/dynamic';
 import Layout from '@/components/Layout';
 import { entities } from '@/lib/api-client';
 import { RiskChip } from '@/components/RiskChip';
-import { Entity, Transaction, Case } from '@/types';
+import { Case, Entity, EntityNetworkResponse, Transaction } from '@/types';
 import { useSnackbar } from 'notistack';
 import { useAuth } from '@/contexts/AuthContext';
 import { RoleGuard } from '@/components/RoleGuard';
@@ -48,7 +48,7 @@ export default function EntityDetailPage() {
     enabled: !!entityId,
   });
 
-  const { data: networkData } = useQuery({
+  const { data: networkData } = useQuery<EntityNetworkResponse>({
     queryKey: ['entity-network', entityId],
     queryFn: () => entities.getNetwork(entityId),
     enabled: !!entityId,
@@ -95,16 +95,16 @@ export default function EntityDetailPage() {
             type: entity.entity_type,
             group: 1,
           },
-          ...networkData.links.map((link) => ({
-            id: link.entity_id,
-            name: link.entity_id,
+          ...networkData.links.map((link: EntityNetworkResponse['links'][number]) => ({
+            id: link.to_entity_id,
+            name: link.to_entity_id,
             type: link.entity_type,
             group: 2,
           })),
         ],
-        links: networkData.links.map((link) => ({
+        links: networkData.links.map((link: EntityNetworkResponse['links'][number]) => ({
           source: entity.entity_id,
-          target: link.entity_id,
+          target: link.to_entity_id,
           relationship: link.relationship_type,
         })),
       }
