@@ -433,6 +433,46 @@ Response: Array of Case objects
 
 ---
 
+## Investor/VC Highlights
+
+### Strategic Value
+- **Problem Fit**: Real-time fraud and risk response reduces loss exposure and improves chargeback outcomes.
+- **Differentiation**: Unified alerts, scoring, and case management in one surface reduces analyst context switching.
+- **Defensibility**: Data network effects from feedback loops on alerts, cases, and outcomes improve model quality.
+
+### Business Metrics (placeholders)
+- **Cost Avoidance**: $X in prevented fraud / month
+- **False Positive Reduction**: Y% reduction vs baseline
+- **Time-to-Action**: Z% faster from alert to decision
+- **Analyst Throughput**: N alerts handled per analyst per day
+
+### Go-to-Market Enablement
+- **Buyer Roles**: Risk, fraud, compliance, and operations teams
+- **Sales Motion**: Land-and-expand via dashboard pilots for a single business unit
+- **Integrations**: API-first ingestion for cards, ACH, and e-commerce platforms
+
+### Compliance and Trust
+- **Auditability**: All actions logged with timestamps and user identity
+- **Regulatory Alignment**: Supports AML/KYC workflows with case tracking and evidence trails
+- **Data Controls**: PII masking and role-based access control
+
+### Scalability and Reliability
+- **Performance Targets**: Sub-second updates and low-latency WebSocket delivery
+- **Operational Readiness**: Backpressure handling, reconnect logic, and graceful degradation
+- **Monitoring**: KPI cards and uptime instrumentation for SLA tracking
+
+### Competitive Positioning
+- **Replace**: Siloed fraud tools and manual spreadsheets
+- **Complement**: SIEM and data warehouse stack through streaming exports
+- **Moat**: Continuous learning from investigator outcomes
+
+### Roadmap Signals
+- **Enterprise Features**: SSO/SAML, granular audit exports, and custom dashboards
+- **AI Assist**: Suggested actions and prioritization based on historical outcomes
+- **Reporting**: ROI and loss avoidance reporting for executive stakeholders
+
+---
+
 ## Future Enhancements
 
 1. **Customizable Dashboard**: User-configurable widgets
