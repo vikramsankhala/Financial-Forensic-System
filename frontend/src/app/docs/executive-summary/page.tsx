@@ -144,10 +144,15 @@ export default function ExecutiveSummaryPage() {
   ];
 
   const competitors = [
-    'Rules-only fraud engines and legacy AML suites',
-    'Standalone case management and investigation tools',
-    'SIEM-style monitoring without financial context',
-    'Data-warehouse + BI stacks with manual workflows',
+    'NICE Actimize',
+    'FICO',
+    'SAS',
+    'IBM',
+    'Experian',
+    'LexisNexis Risk Solutions',
+    'TransUnion',
+    'Fiserv',
+    'FIS',
   ];
 
   const differentiation = [
@@ -316,12 +321,26 @@ export default function ExecutiveSummaryPage() {
             ))}
           </Grid>
           <Typography variant="subtitle2" gutterBottom>
-            Market Size (replace with sourced estimates)
+            Market Size (global, sourced)
           </Typography>
           <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3 }}>
-            <Chip label="TAM: $XXB global fraud/AML software spend" color="primary" variant="outlined" />
-            <Chip label="SAM: $XB mid-market financial institutions" variant="outlined" />
-            <Chip label="SOM: $XB initial reachable segment" variant="outlined" />
+            <Chip label="TAM: $29.07B (Fraud Detection & Prevention, 2024)" color="primary" variant="outlined" />
+            <Chip label="Forecast: $65.68B by 2030 (15.5% CAGR)" variant="outlined" />
+          </Stack>
+          <Typography variant="body2" color="text.secondary" sx={{ mb: 3 }}>
+            Source:{' '}
+            <a
+              href="https://www.marketsandmarkets.com/Market-Reports/fraud-detection-prevention-market-1312.html"
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              MarketsandMarkets – Fraud Detection and Prevention (FDP) Market
+            </a>
+            , Market Size in 2024 (USD 29.07B) and Forecast to 2030 (USD 65.68B).
+          </Typography>
+          <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ mb: 3 }}>
+            <Chip label="SAM: To be defined by vertical + region focus" variant="outlined" />
+            <Chip label="SOM: Initial beachhead by tier/segment" variant="outlined" />
           </Stack>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6}>
