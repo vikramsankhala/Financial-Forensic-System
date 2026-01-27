@@ -8,6 +8,7 @@ on:
       - "frontend/**"
       - "netlify.toml"
       - ".github/workflows/netlify-frontend.yml"
+  workflow_dispatch:
 
 jobs:
   deploy:
