@@ -633,7 +633,7 @@ Relationships: RELATES_TO
                       <TableCell><code>/api/transactions</code></TableCell>
                       <TableCell>
                         POST /score<br />
-                        GET /{id}<br />
+                        GET /{"{id}"}<br />
                         GET / (list)
                       </TableCell>
                       <TableCell>
@@ -647,9 +647,9 @@ Relationships: RELATES_TO
                       <TableCell><code>/api/cases</code></TableCell>
                       <TableCell>
                         POST /<br />
-                        GET /{id}<br />
-                        GET /{id}/report<br />
-                        PUT /{id}/status
+                        GET /{"{id}"}<br />
+                        GET /{"{id}"}/report<br />
+                        PUT /{"{id}"}/status
                       </TableCell>
                       <TableCell>
                         Case management<br />
@@ -661,8 +661,8 @@ Relationships: RELATES_TO
                       <TableCell><strong>entities</strong></TableCell>
                       <TableCell><code>/api/entities</code></TableCell>
                       <TableCell>
-                        GET /{id}<br />
-                        GET /{id}/network<br />
+                        GET /{"{id}"}<br />
+                        GET /{"{id}"}/network<br />
                         GET /fraud-rings
                       </TableCell>
                       <TableCell>
