@@ -20,6 +20,10 @@ import {
   Button,
   Stack,
   Alert,
+  FormControl,
+  InputLabel,
+  Select,
+  MenuItem,
 } from '@mui/material';
 import {
   Warning as WarningIcon,
@@ -60,6 +64,7 @@ export default function DashboardPage() {
   const [appActionLoading, setAppActionLoading] = useState(false);
   const [autoStartAttempted, setAutoStartAttempted] = useState(false);
   const [controlError, setControlError] = useState<string | null>(null);
+  const [liveSource, setLiveSource] = useState<'binance' | 'kraken' | 'multi'>('binance');
   const demoMode = process.env.NEXT_PUBLIC_DEMO_DATA === 'true';
 
   // Fetch transactions
@@ -105,6 +110,13 @@ export default function DashboardPage() {
 
     setControlError(null);
   }, [appStatusError]);
+
+  useEffect(() => {
+    const feedSource = feedStatus?.settings?.live_source;
+    if (feedSource === 'binance' || feedSource === 'kraken' || feedSource === 'multi') {
+      setLiveSource(feedSource);
+    }
+  }, [feedStatus]);
 
   const transactionsList = (transactionsData || []) as Transaction[];
   const casesList = (casesData || []) as Case[];
@@ -213,7 +225,12 @@ export default function DashboardPage() {
   const handleStartFeed = async () => {
     setFeedActionLoading(true);
     try {
-      await demoFeed.start({ mode: 'auto', batch_size: 25, interval: 5 });
+      await demoFeed.start({
+        mode: 'stream',
+        live_source: liveSource,
+        batch_size: 25,
+        interval: 5,
+      });
       await refetchFeedStatus();
     } finally {
       setFeedActionLoading(false);
@@ -305,6 +322,22 @@ export default function DashboardPage() {
             color={appRunning ? 'success' : 'default'}
             variant={appRunning ? 'filled' : 'outlined'}
           />
+          <FormControl size="small" sx={{ minWidth: 160 }}>
+            <InputLabel id="live-source-select-label">Live Source</InputLabel>
+            <Select
+              labelId="live-source-select-label"
+              value={liveSource}
+              label="Live Source"
+              onChange={(event) =>
+                setLiveSource(event.target.value as 'binance' | 'kraken' | 'multi')
+              }
+              disabled={feedRunning || feedActionLoading}
+            >
+              <MenuItem value="binance">Binance</MenuItem>
+              <MenuItem value="kraken">Kraken</MenuItem>
+              <MenuItem value="multi">Auto (Multi)</MenuItem>
+            </Select>
+          </FormControl>
           <Button
             variant="contained"
             color="success"
