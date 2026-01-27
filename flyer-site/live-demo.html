@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FFS Live Product Demo</title>
+    <meta
+      name="description"
+      content="Full-screen HTML demo walkthrough explaining the FFS Live Product Demo dashboard."
+    />
+    <link
+      rel="preconnect"
+      href="https://fonts.googleapis.com"
+      crossorigin="anonymous"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <style>
+      .demo-hero {
+        min-height: 70vh;
+        display: grid;
+        place-items: center;
+      }
+      .demo-screen {
+        background: #0f172a;
+        color: #e2e8f0;
+        border-radius: 24px;
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .demo-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      }
+      .demo-card {
+        background: rgba(255, 255, 255, 0.08);
+        border-radius: 16px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .demo-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+        background: rgba(79, 70, 229, 0.25);
+        color: #c7d2fe;
+      }
+      .demo-table {
+        display: grid;
+        gap: 0.6rem;
+      }
+      .demo-row {
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 0.5rem;
+        font-size: 0.85rem;
+      }
+      .demo-row strong {
+        color: #fff;
+      }
+      .legend {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+      }
+      .legend span {
+        background: rgba(148, 163, 184, 0.15);
+        padding: 0.3rem 0.6rem;
+        border-radius: 999px;
+        font-size: 0.75rem;
+      }
+    </style>
+  </head>
+  <body class="bg-mist text-ink">
+    <header class="hero demo-hero">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-6">
+            <p class="eyebrow">FFS Live Product Demo</p>
+            <h1 class="display-5 fw-bold text-white">
+              Full-screen walkthrough of the live fraud monitoring console.
+            </h1>
+            <p class="lead text-white-50">
+              This HTML demo mirrors the production experience and explains each part of the live
+              dashboard: real-time metrics, alert feeds, case workflows, and transaction monitoring.
+            </p>
+            <div class="d-flex gap-3">
+              <a class="btn btn-accent" href="index.html">Back to marketing site</a>
+              <a class="btn btn-outline-light" href="http://localhost:5173">Open local live demo</a>
+            </div>
+          </div>
+          <div class="col-lg-6">
+            <div class="hero-card">
+              <h6 class="text-uppercase text-muted mb-3">What this page shows</h6>
+              <ul class="list-unstyled">
+                <li>Full-screen visual layout of the demo console</li>
+                <li>Annotated explanations for each UI block</li>
+                <li>Guidance for investors and operators reviewing the workflow</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-glow"></div>
+    </header>
+
+    <section class="container section">
+      <h2 class="section-title">FFS Live Console (Full HTML Screen)</h2>
+      <p class="section-subtitle">
+        The layout below shows the complete live product demo screen in a single view, with
+        descriptive callouts for each component.
+      </p>
+      <div class="demo-screen">
+        <div class="demo-grid">
+          <div class="demo-card">
+            <span class="demo-badge">Real-time metrics</span>
+            <h5 class="mt-3">Executive KPI tiles</h5>
+            <p class="mb-0">
+              Transaction volume, high-risk alert count, open case load, response time, and FP rate
+              update every few seconds as new alerts stream in.
+            </p>
+          </div>
+          <div class="demo-card">
+            <span class="demo-badge">Alert stream</span>
+            <h5 class="mt-3">Live alert queue</h5>
+            <p class="mb-0">
+              Each alert contains member, channel, amount, and risk score so investigators can triage
+              without leaving the dashboard.
+            </p>
+          </div>
+          <div class="demo-card">
+            <span class="demo-badge">Case workflow</span>
+            <h5 class="mt-3">Open case panel</h5>
+            <p class="mb-0">
+              Investigator-ready case summaries show priority, owner, and last update time to support
+              rapid escalation.
+            </p>
+          </div>
+          <div class="demo-card">
+            <span class="demo-badge">Transactions</span>
+            <h5 class="mt-3">Multi-channel feed</h5>
+            <p class="mb-0">
+              Recent transactions across card, ACH, RTP, wire, ITM, and mobile channels allow
+              cross-channel context for alerts.
+            </p>
+          </div>
+        </div>
+
+        <div class="mt-4">
+          <div class="demo-table">
+            <div class="demo-row">
+              <strong>Member</strong>
+              <strong>Channel</strong>
+              <strong>Amount</strong>
+              <strong>Risk</strong>
+              <strong>Status</strong>
+            </div>
+            <div class="demo-row">
+              <span>Sarah Martinez</span>
+              <span>Online</span>
+              <span>$8,500</span>
+              <span>0.92</span>
+              <span>Critical</span>
+            </div>
+            <div class="demo-row">
+              <span>Robert Thompson</span>
+              <span>ITM</span>
+              <span>$12,000</span>
+              <span>0.94</span>
+              <span>Critical</span>
+            </div>
+            <div class="demo-row">
+              <span>Dana Patel</span>
+              <span>Card</span>
+              <span>$1,780</span>
+              <span>0.71</span>
+              <span>High</span>
+            </div>
+          </div>
+          <div class="legend">
+            <span>Critical = Auto-case created</span>
+            <span>High = Investigator review</span>
+            <span>Medium = Watchlist</span>
+            <span>Low = Baseline</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section soft-bg">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-6">
+            <h3 class="section-title">How the live demo works</h3>
+            <p class="section-subtitle">
+              This static page documents the live experience. The actual live demo is powered by a
+              local Express API + SQLite dataset and a React UI.
+            </p>
+            <ul class="list-check">
+              <li>Seeded alert, case, and transaction data stored in SQLite.</li>
+              <li>Server pushes new alerts every ~8 seconds for realism.</li>
+              <li>Metrics update via streaming events (SSE).</li>
+              <li>UI renders in under 100ms to mimic real-time operations.</li>
+            </ul>
+          </div>
+          <div class="col-lg-6">
+            <div class="panel-card">
+              <h5>Investor + operator talking points</h5>
+              <ul>
+                <li>Sub-100ms fraud scoring with explainable signals.</li>
+                <li>Auto-case creation for critical alerts.</li>
+                <li>Unified view across channels and roles.</li>
+                <li>Audit-ready trail for compliance review.</li>
+                <li>Rapid time-to-value with live alert streams.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container section">
+      <h3 class="section-title">Breakdown of each UI area</h3>
+      <div class="row g-4">
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>1. Metrics Header</h5>
+            <p>
+              Summarizes operational health: transaction throughput, alert volume, open case load,
+              response time, and false-positive rates.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>2. Alert Stream</h5>
+            <p>
+              Real-time feed with risk-scored alerts used to prioritize investigator workflows and
+              immediate actioning.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>3. Case Queue</h5>
+            <p>
+              Shows auto-generated cases with owners, priorities, and summaries so teams can triage
+              quickly.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>4. Transaction Feed</h5>
+            <p>
+              Provides context on recent activity across channels to validate alerts and surface
+              anomalies.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>5. Investigator Actions</h5>
+            <p>
+              Escalation, hold, and notification actions are documented in the case record with a full
+              audit trail.
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="info-card">
+            <h5>6. Compliance View</h5>
+            <p>
+              BSA/AML reporting hooks, CTR/SAR readiness, and entity network context are embedded into
+              the workflow.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section contact-section">
+      <div class="container">
+        <div class="row gy-4 align-items-center">
+          <div class="col-lg-7">
+            <h2 class="section-title text-white">Deploy this HTML demo on Netlify</h2>
+            <p class="section-subtitle text-white-50">
+              This file is static and ready for Netlify. Publish `flyer-site/` and it will render
+              without additional build steps.
+            </p>
+            <div class="d-flex gap-3">
+              <a class="btn btn-light btn-lg" href="index.html">Back to marketing site</a>
+              <a class="btn btn-outline-light btn-lg" href="http://localhost:5173">
+                Launch local live demo
+              </a>
+            </div>
+          </div>
+          <div class="col-lg-5">
+            <div class="contact-card">
+              <h5>Deployment checklist</h5>
+              <ul>
+                <li>Include `live-demo.html` in `flyer-site/`.</li>
+                <li>Deploy the folder directly in Netlify.</li>
+                <li>Use the Live Demo link in the nav.</li>
+                <li>Local demo runs separately via `npm run demo`.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="container">
+        <div class="row gy-3">
+          <div class="col-md-6">
+            <h6>Financial Forensic System</h6>
+            <p>Real-time fraud detection, explainable ML, and forensic-grade workflows.</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Live Demo</h6>
+            <p>Static walkthrough + local streaming console.</p>
+          </div>
+          <div class="col-md-3">
+            <h6>Contact</h6>
+            <p>contact@yourcompany.com</p>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>(c) 2026 Financial Forensic System. All rights reserved.</span>
+          <span>Confidential marketing material.</span>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
