@@ -11,6 +11,10 @@ const api = axios.create({
 
 const unwrap = <T>(response: { data: T }) => response.data;
 
+const demoMode = process.env.NEXT_PUBLIC_DEMO_DATA === 'true';
+const withDemoFlag = (params: Record<string, any>) =>
+  demoMode ? { ...params, demo: true } : params;
+
 const controlBaseURL =
   process.env.NEXT_PUBLIC_CONTROL_URL || 'http://localhost:9000';
 const controlApi = axios.create({
@@ -22,13 +26,14 @@ const controlApi = axios.create({
 
 export const transactions = {
   list: (params: Record<string, any> = {}) =>
-    api.get('/transactions', { params }).then(unwrap),
+    api.get('/transactions', { params: withDemoFlag(params) }).then(unwrap),
   get: (id: number) => api.get(`/transactions/${id}`).then(unwrap),
   flag: (id: number) => api.post(`/transactions/${id}/flag`).then(unwrap),
 };
 
 export const cases = {
-  list: (params: Record<string, any> = {}) => api.get('/cases', { params }).then(unwrap),
+  list: (params: Record<string, any> = {}) =>
+    api.get('/cases', { params: withDemoFlag(params) }).then(unwrap),
   get: (id: number) => api.get(`/cases/${id}`).then(unwrap),
   create: (payload: Record<string, any>) => api.post('/cases', payload).then(unwrap),
   updateStatus: (id: number, status: string) =>

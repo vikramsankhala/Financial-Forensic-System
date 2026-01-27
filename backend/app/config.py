@@ -46,6 +46,9 @@ class Settings(BaseSettings):
     
     # Monitoring
     metrics_enabled: bool = True
+
+    # Demo data
+    demo_data_enabled: bool = Field(True, validation_alias="DEMO_DATA_ENABLED")
     
     # OpenAI (optional)
     openai_api_key: Optional[str] = Field(None, validation_alias="OPENAI_API_KEY")

@@ -1,5 +1,5 @@
 """Case management API endpoints."""
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter, Depends, HTTPException, Query
 from sqlalchemy.orm import Session
 from typing import List, Optional
 from app.database import get_db
@@ -9,9 +9,11 @@ from app.schemas import (
     CaseReportResponse, TransactionResponse, EntityResponse
 )
 from app.auth import get_current_user, require_role, User, UserRole
+from app.config import settings
 from app.agents import InvestigationAgent
 from app.audit import log_audit_event
 from app.models import CaseStatus
+from app.demo_data import get_demo_cases
 
 router = APIRouter(prefix="/cases", tags=["cases"])
 
@@ -67,16 +69,28 @@ async def list_cases(
     skip: int = 0,
     limit: int = 100,
     status: Optional[CaseStatus] = None,
+    demo: Optional[bool] = Query(False),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """List cases."""
+    if demo:
+        demo_cases = get_demo_cases()
+        if status:
+            demo_cases = [case for case in demo_cases if case["status"] == status]
+        if demo_cases:
+            return demo_cases[skip : skip + limit]
     query = db.query(Case)
     
     if status:
         query = query.filter(Case.status == status)
     
     cases = query.order_by(Case.created_at.desc()).offset(skip).limit(limit).all()
+    if settings.demo_data_enabled and not cases:
+        demo_cases = get_demo_cases()
+        if status:
+            demo_cases = [case for case in demo_cases if case["status"] == status]
+        return demo_cases[skip : skip + limit]
     return cases
 
 

@@ -16,6 +16,7 @@ from app.autoencoder import Autoencoder
 from app.agents import AnomalyAgent, ComplianceAgent, InvestigationAgent
 from app.audit import log_audit_event
 from app.config import settings
+from app.demo_data import get_demo_transactions
 import os
 
 router = APIRouter(prefix="/transactions", tags=["transactions"])
@@ -179,10 +180,15 @@ async def list_transactions(
     customer_id: Optional[str] = None,
     merchant_id: Optional[str] = None,
     flagged: Optional[bool] = None,
+    demo: Optional[bool] = Query(False),
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user)
 ):
     """List transactions with filters."""
+    if demo:
+        demo_transactions = get_demo_transactions()
+        if demo_transactions:
+            return demo_transactions[:limit]
     query = db.query(Transaction)
     
     if risk_level:
@@ -207,6 +213,8 @@ async def list_transactions(
             query = query.filter(~Transaction.id.in_(tx_ids))
     
     transactions = query.order_by(Transaction.timestamp.desc()).offset(skip).limit(limit).all()
+    if settings.demo_data_enabled and not transactions:
+        return get_demo_transactions()[:limit]
     return transactions
 
 

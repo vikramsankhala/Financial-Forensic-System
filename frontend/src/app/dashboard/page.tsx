@@ -60,6 +60,7 @@ export default function DashboardPage() {
   const [appActionLoading, setAppActionLoading] = useState(false);
   const [autoStartAttempted, setAutoStartAttempted] = useState(false);
   const [controlError, setControlError] = useState<string | null>(null);
+  const demoMode = process.env.NEXT_PUBLIC_DEMO_DATA === 'true';
 
   // Fetch transactions
   const { data: transactionsData } = useQuery({
@@ -283,6 +284,11 @@ export default function DashboardPage() {
         <Typography variant="h4" component="h1" gutterBottom>
           Dashboard
         </Typography>
+        {demoMode && (
+          <Alert severity="info" sx={{ mb: 2 }}>
+            Demo data is enabled. Source: synthetic scenarios in docs/DEMO_DATA.json.
+          </Alert>
+        )}
         {controlError && (
           <Alert severity="warning" sx={{ mb: 2 }}>
             {controlError}

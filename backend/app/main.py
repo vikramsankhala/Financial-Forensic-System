@@ -6,6 +6,11 @@ import logging
 from app.config import settings
 from app.routers import transactions, cases, auth, entities, metrics
 from app.routers import dashboard_metrics
+from app.routers import demo_feed
+from app.routers import app_control
+from app.routers import demo_data
+from app.app_control import app_status
+from fastapi import Request, HTTPException
 from app.database import engine, Base
 from app.cache import get_redis_client
 from app.graph import get_graph_driver
@@ -52,6 +57,21 @@ app = FastAPI(
     lifespan=lifespan
 )
 
+
+@app.middleware("http")
+async def app_running_guard(request: Request, call_next):
+    """Block requests when app is stopped."""
+    status = app_status()
+    if not status.get("running", True):
+        path = request.url.path
+        if not (
+            path.startswith("/healthz")
+            or path.startswith("/readyz")
+            or path.startswith("/api/app")
+        ):
+            raise HTTPException(status_code=503, detail="Application is stopped")
+    return await call_next(request)
+
 # CORS middleware
 app.add_middleware(
     CORSMiddleware,
@@ -68,6 +88,9 @@ app.include_router(auth.router, prefix=settings.api_prefix)
 app.include_router(entities.router, prefix=settings.api_prefix)
 app.include_router(metrics.router)
 app.include_router(dashboard_metrics.router, prefix=settings.api_prefix)
+app.include_router(demo_feed.router, prefix=settings.api_prefix)
+app.include_router(app_control.router, prefix=settings.api_prefix)
+app.include_router(demo_data.router, prefix=settings.api_prefix)
 
 
 @app.get("/healthz")
