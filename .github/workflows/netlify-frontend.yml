@@ -28,12 +28,14 @@ jobs:
         run: npm ci
 
       - name: Netlify build
+        working-directory: .
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
         run: npx netlify build --context production
 
       - name: Deploy to Netlify
+        working-directory: .
         env:
           NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
           NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
