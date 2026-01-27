@@ -17,6 +17,9 @@ import {
   TableHead,
   TableRow,
   Chip,
+  Button,
+  Stack,
+  Alert,
 } from '@mui/material';
 import {
   Warning as WarningIcon,
@@ -38,7 +41,7 @@ import {
   ResponsiveContainer,
 } from 'recharts';
 import Layout from '@/components/Layout';
-import { transactions, cases } from '@/lib/api-client';
+import { transactions, cases, demoFeed, control } from '@/lib/api-client';
 import { RiskChip } from '@/components/RiskChip';
 import { Case, RiskLevel, Transaction } from '@/types';
 import { useRouter } from 'next/navigation';
@@ -53,6 +56,10 @@ const COLORS = {
 export default function DashboardPage() {
   const router = useRouter();
   const [timeRange, setTimeRange] = useState<'24h' | '7d' | '30d'>('24h');
+  const [feedActionLoading, setFeedActionLoading] = useState(false);
+  const [appActionLoading, setAppActionLoading] = useState(false);
+  const [autoStartAttempted, setAutoStartAttempted] = useState(false);
+  const [controlError, setControlError] = useState<string | null>(null);
 
   // Fetch transactions
   const { data: transactionsData } = useQuery({
@@ -65,6 +72,38 @@ export default function DashboardPage() {
     queryKey: ['cases'],
     queryFn: () => cases.list(),
   });
+
+  const {
+    data: feedStatus,
+    refetch: refetchFeedStatus,
+    isFetching: feedStatusFetching,
+  } = useQuery({
+    queryKey: ['demo-feed-status'],
+    queryFn: () => demoFeed.status(),
+    refetchInterval: 5000,
+  });
+
+  const {
+    data: appStatus,
+    refetch: refetchAppStatus,
+    isFetching: appStatusFetching,
+    isError: appStatusError,
+  } = useQuery({
+    queryKey: ['app-control-status'],
+    queryFn: () => control.status(),
+    refetchInterval: 5000,
+  });
+
+  useEffect(() => {
+    if (appStatusError) {
+      setControlError(
+        'Control service unreachable. Enable Docker Desktop TCP 2375 and refresh.'
+      );
+      return;
+    }
+
+    setControlError(null);
+  }, [appStatusError]);
 
   const transactionsList = (transactionsData || []) as Transaction[];
   const casesList = (casesData || []) as Case[];
@@ -170,12 +209,129 @@ export default function DashboardPage() {
     },
   ];
 
+  const handleStartFeed = async () => {
+    setFeedActionLoading(true);
+    try {
+      await demoFeed.start({ mode: 'auto', batch_size: 25, interval: 5 });
+      await refetchFeedStatus();
+    } finally {
+      setFeedActionLoading(false);
+    }
+  };
+
+  const handleStopFeed = async () => {
+    setFeedActionLoading(true);
+    try {
+      await demoFeed.stop();
+      await refetchFeedStatus();
+    } finally {
+      setFeedActionLoading(false);
+    }
+  };
+
+  const feedRunning = Boolean(feedStatus?.running);
+  const appRunning = Boolean(appStatus?.running);
+
+  useEffect(() => {
+    if (autoStartAttempted) {
+      return;
+    }
+    if (appStatus && appStatus.running === false && !appActionLoading) {
+      setAutoStartAttempted(true);
+      control
+        .start()
+        .then(() => refetchAppStatus())
+        .catch(() => {
+          // Best-effort auto-start; ignore errors.
+        });
+    }
+  }, [appStatus, appActionLoading, autoStartAttempted, refetchAppStatus]);
+
+  const handleStartApp = async () => {
+    setAppActionLoading(true);
+    try {
+      setControlError(null);
+      await control.start();
+      await refetchAppStatus();
+    } catch {
+      setControlError(
+        'Failed to start backend. Check control tunnel and Docker Desktop TCP 2375.'
+      );
+    } finally {
+      setAppActionLoading(false);
+    }
+  };
+
+  const handleStopApp = async () => {
+    setAppActionLoading(true);
+    try {
+      setControlError(null);
+      await control.stop();
+      await refetchAppStatus();
+    } catch {
+      setControlError(
+        'Failed to stop backend. Check control tunnel and Docker Desktop TCP 2375.'
+      );
+    } finally {
+      setAppActionLoading(false);
+    }
+  };
+
   return (
     <Layout>
       <Container maxWidth="xl">
         <Typography variant="h4" component="h1" gutterBottom>
           Dashboard
         </Typography>
+        {controlError && (
+          <Alert severity="warning" sx={{ mb: 2 }}>
+            {controlError}
+          </Alert>
+        )}
+        <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2, flexWrap: 'wrap' }}>
+          <Chip
+            label={feedRunning ? 'Streaming: ON' : 'Streaming: OFF'}
+            color={feedRunning ? 'success' : 'default'}
+            variant={feedRunning ? 'filled' : 'outlined'}
+          />
+          <Chip
+            label={appRunning ? 'Backend: ON' : 'Backend: OFF'}
+            color={appRunning ? 'success' : 'default'}
+            variant={appRunning ? 'filled' : 'outlined'}
+          />
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleStartFeed}
+            disabled={feedActionLoading || feedStatusFetching || feedRunning}
+          >
+            Start Stream
+          </Button>
+          <Button
+            variant="outlined"
+            color="error"
+            onClick={handleStopFeed}
+            disabled={feedActionLoading || feedStatusFetching || !feedRunning}
+          >
+            Stop Stream
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleStartApp}
+            disabled={appActionLoading || appStatusFetching || appRunning}
+          >
+            Start Backend
+          </Button>
+          <Button
+            variant="outlined"
+            color="warning"
+            onClick={handleStopApp}
+            disabled={appActionLoading || appStatusFetching || !appRunning}
+          >
+            Stop Backend
+          </Button>
+        </Stack>
 
         <Grid container spacing={3} sx={{ mt: 1 }}>
           {statCards.map((card, index) => (
