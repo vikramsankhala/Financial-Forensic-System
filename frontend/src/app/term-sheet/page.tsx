@@ -23,6 +23,10 @@
      items: [
        'Round: Seed / Pre-Series A',
        'Amount: USD 5,000,000',
+      'Structure: Tranche-based close',
+      'Tranche 1: USD 1,000,000 initial close',
+      'Tranche 2: USD 2,000,000 upon milestone achievement',
+      'Tranche 3: USD 2,000,000 upon scale + security milestones',
        'Security: Preferred equity',
        'Target close: 60-90 days',
      ],
@@ -38,10 +42,10 @@
    {
      title: 'Use of Proceeds',
      items: [
-       'Product & ML engineering: 40%',
-       'Go-to-market & partnerships: 30%',
-       'Infrastructure, security, compliance: 20%',
-       'Operations & recruiting: 10%',
+      'Tranche 1 focus: product hardening, pilot onboarding, key hires',
+      'Tranche 2 focus: GTM expansion and pipeline conversion',
+      'Tranche 3 focus: security compliance, scale, and reliability',
+      'Overall allocation: 40% product/ML, 30% GTM, 20% infra/security, 10% ops',
      ],
    },
    {
