@@ -87,6 +87,8 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
     { text: 'Transactions', icon: <TransactionIcon />, path: '/transactions' },
     { text: 'Cases', icon: <CaseIcon />, path: '/cases' },
     { text: 'Entities', icon: <EntityIcon />, path: '/entities' },
+    { text: 'Investor Pitch', icon: <SummaryIcon />, path: '/investor-pitch' },
+    { text: 'Term Sheet', icon: <DocsIcon />, path: '/term-sheet' },
   ];
 
   const useCaseItems = [
@@ -104,18 +106,6 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
     { text: 'System Integration', icon: <IntegrationIcon />, path: '/docs/integration' },
   ];
 
-  const investorItems = [
-    {
-      text: 'Investor Pitch',
-      icon: <SummaryIcon />,
-      href: 'https://ffs-frontend.netlify.app/investor-pitch',
-    },
-    {
-      text: 'Term Sheet',
-      icon: <DocsIcon />,
-      href: 'https://ffs-frontend.netlify.app/term-sheet',
-    },
-  ];
 
   const drawer = (
     <Box>
@@ -196,19 +186,6 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
             ))}
           </List>
         </Collapse>
-        {investorItems.map((item) => (
-          <ListItem key={item.text} disablePadding>
-            <ListItemButton
-              component="a"
-              href={item.href}
-              target="_blank"
-              rel="noreferrer noopener"
-            >
-              <ListItemIcon>{item.icon}</ListItemIcon>
-              <ListItemText primary={item.text} />
-            </ListItemButton>
-          </ListItem>
-        ))}
       </List>
     </Box>
   );
