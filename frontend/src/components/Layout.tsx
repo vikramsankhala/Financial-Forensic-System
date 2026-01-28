@@ -104,6 +104,19 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
     { text: 'System Integration', icon: <IntegrationIcon />, path: '/docs/integration' },
   ];
 
+  const investorItems = [
+    {
+      text: 'Investor Pitch',
+      icon: <SummaryIcon />,
+      href: 'https://ffs-frontend.netlify.app/investor-pitch',
+    },
+    {
+      text: 'Term Sheet',
+      icon: <DocsIcon />,
+      href: 'https://ffs-frontend.netlify.app/term-sheet',
+    },
+  ];
+
   const drawer = (
     <Box>
       <Toolbar>
@@ -183,6 +196,19 @@ export default function Layout({ children, breadcrumbs }: LayoutProps) {
             ))}
           </List>
         </Collapse>
+        {investorItems.map((item) => (
+          <ListItem key={item.text} disablePadding>
+            <ListItemButton
+              component="a"
+              href={item.href}
+              target="_blank"
+              rel="noreferrer noopener"
+            >
+              <ListItemIcon>{item.icon}</ListItemIcon>
+              <ListItemText primary={item.text} />
+            </ListItemButton>
+          </ListItem>
+        ))}
       </List>
     </Box>
   );
