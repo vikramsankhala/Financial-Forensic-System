@@ -1,0 +1,210 @@
+{
+  "cases": [
+    {
+      "id": "CASE-2026-0127-04",
+      "title": "Impersonation scam + ATO",
+      "status": "open",
+      "priority": "critical",
+      "created_at": "2026-01-27T01:23:04.000Z",
+      "updated_at": "2026-01-27T01:28:12.000Z",
+      "summary": "Spoofed call and Nigerian login attempt on member Sarah Martinez.",
+      "owner": "Jessica Chen"
+    },
+    {
+      "id": "CASE-2026-0203-12",
+      "title": "Check kiting ring",
+      "status": "in_review",
+      "priority": "high",
+      "created_at": "2026-02-03T15:12:00.000Z",
+      "updated_at": "2026-02-03T15:47:20.000Z",
+      "summary": "Circular deposits between synthetic identities at Jasper branch.",
+      "owner": "Michael Torres"
+    },
+    {
+      "id": "CASE-2026-0215-09",
+      "title": "Elder RTP scam attempt",
+      "status": "open",
+      "priority": "critical",
+      "created_at": "2026-02-15T16:47:00.000Z",
+      "updated_at": "2026-02-15T16:49:10.000Z",
+      "summary": "AI voice cloning scam blocked at ITM for Robert Thompson.",
+      "owner": "Jennifer Adams"
+    }
+  ],
+  "alerts": [
+    {
+      "id": "ALERT-482193",
+      "created_at": "2026-01-27T01:23:04.000Z",
+      "member": "Sarah Martinez",
+      "risk_score": 0.78,
+      "amount": 0,
+      "channel": "Online",
+      "type": "Account takeover",
+      "status": "high",
+      "description": "New device + geo anomaly on login.",
+      "case_id": "CASE-2026-0127-04"
+    },
+    {
+      "id": "ALERT-847291",
+      "created_at": "2026-01-27T01:23:47.000Z",
+      "member": "Sarah Martinez",
+      "risk_score": 0.92,
+      "amount": 8500,
+      "channel": "Online",
+      "type": "Suspicious transfer",
+      "status": "critical",
+      "description": "New external recipient added after high-risk login.",
+      "case_id": "CASE-2026-0127-04"
+    },
+    {
+      "id": "ALERT-203112",
+      "created_at": "2026-02-03T15:12:00.000Z",
+      "member": "John Smith",
+      "risk_score": 0.81,
+      "amount": 4200,
+      "channel": "Branch",
+      "type": "Check kiting",
+      "status": "high",
+      "description": "Circular deposits detected in Jasper branch.",
+      "case_id": "CASE-2026-0203-12"
+    },
+    {
+      "id": "ALERT-203119",
+      "created_at": "2026-02-03T15:14:20.000Z",
+      "member": "Mary Johnson",
+      "risk_score": 0.83,
+      "amount": 4500,
+      "channel": "Branch",
+      "type": "Check kiting",
+      "status": "high",
+      "description": "Velocity spike on new account deposits.",
+      "case_id": "CASE-2026-0203-12"
+    },
+    {
+      "id": "ALERT-021578",
+      "created_at": "2026-02-15T16:47:00.000Z",
+      "member": "Robert Thompson",
+      "risk_score": 0.94,
+      "amount": 12000,
+      "channel": "ITM",
+      "type": "RTP scam",
+      "status": "critical",
+      "description": "First RTP transfer with elder fraud indicators.",
+      "case_id": "CASE-2026-0215-09"
+    },
+    {
+      "id": "ALERT-991204",
+      "created_at": "2026-02-20T13:05:20.000Z",
+      "member": "Dana Patel",
+      "risk_score": 0.76,
+      "amount": 1780,
+      "channel": "Card",
+      "type": "Velocity spike",
+      "status": "high",
+      "description": "Multiple card-not-present transactions within 4 minutes.",
+      "case_id": null
+    }
+  ],
+  "transactions": [
+    {
+      "id": "TXN-8921",
+      "created_at": "2026-02-20T13:05:00.000Z",
+      "amount": 5000,
+      "channel": "Card",
+      "member": "Dana Patel",
+      "merchant": "Electronics Hub",
+      "risk_score": 0.85,
+      "case_id": null
+    },
+    {
+      "id": "TXN-7433",
+      "created_at": "2026-02-20T13:07:10.000Z",
+      "amount": 1780,
+      "channel": "Card",
+      "member": "Dana Patel",
+      "merchant": "Travel Junction",
+      "risk_score": 0.71,
+      "case_id": null
+    },
+    {
+      "id": "TXN-5520",
+      "created_at": "2026-02-20T13:09:45.000Z",
+      "amount": 420,
+      "channel": "Card",
+      "member": "Dana Patel",
+      "merchant": "Online Marketplace",
+      "risk_score": 0.44,
+      "case_id": null
+    },
+    {
+      "id": "TXN-482193",
+      "created_at": "2026-01-27T01:23:04.000Z",
+      "amount": 0,
+      "channel": "Online",
+      "member": "Sarah Martinez",
+      "merchant": "EFFCU Online",
+      "risk_score": 0.78,
+      "case_id": "CASE-2026-0127-04"
+    },
+    {
+      "id": "TXN-847291",
+      "created_at": "2026-01-27T01:23:47.000Z",
+      "amount": 8500,
+      "channel": "Online",
+      "member": "Sarah Martinez",
+      "merchant": "Wells Fargo",
+      "risk_score": 0.92,
+      "case_id": "CASE-2026-0127-04"
+    },
+    {
+      "id": "TXN-187432",
+      "created_at": "2026-02-01T10:10:00.000Z",
+      "amount": 4200,
+      "channel": "Branch",
+      "member": "John Smith",
+      "merchant": "Check Deposit",
+      "risk_score": 0.81,
+      "case_id": "CASE-2026-0203-12"
+    },
+    {
+      "id": "TXN-187445",
+      "created_at": "2026-02-03T09:40:00.000Z",
+      "amount": 4500,
+      "channel": "Branch",
+      "member": "Mary Johnson",
+      "merchant": "Check Deposit",
+      "risk_score": 0.83,
+      "case_id": "CASE-2026-0203-12"
+    },
+    {
+      "id": "TXN-021578",
+      "created_at": "2026-02-15T16:47:00.000Z",
+      "amount": 12000,
+      "channel": "ITM",
+      "member": "Robert Thompson",
+      "merchant": "Security Holdings LLC",
+      "risk_score": 0.94,
+      "case_id": "CASE-2026-0215-09"
+    },
+    {
+      "id": "TXN-621234",
+      "created_at": "2026-02-18T11:30:00.000Z",
+      "amount": 220,
+      "channel": "ACH",
+      "member": "Erin Fields",
+      "merchant": "Utility Payments",
+      "risk_score": 0.32,
+      "case_id": null
+    },
+    {
+      "id": "TXN-774220",
+      "created_at": "2026-02-19T09:05:00.000Z",
+      "amount": 2100,
+      "channel": "Mobile",
+      "member": "Samuel Ortiz",
+      "merchant": "Payroll Services",
+      "risk_score": 0.38,
+      "case_id": null
+    }
+  ]
+}

@@ -122,7 +122,7 @@ class Case(Base):
     priority = Column(String)  # low, medium, high, critical
     owner_id = Column(Integer, ForeignKey("users.id"))
     tags = Column(JSON)  # List of tags
-    created_at = Column(DateTime, server_default=func.now(), index=True)
+    created_at = Column(DateTime, server_default=func.now(), index=True, nullable=False)
     updated_at = Column(DateTime, server_default=func.now(), onupdate=func.now())
     closed_at = Column(DateTime)
     

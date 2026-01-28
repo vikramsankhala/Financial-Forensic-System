@@ -23,6 +23,9 @@ def upgrade() -> None:
     op.execute("""
         CREATE EXTENSION IF NOT EXISTS timescaledb;
     """)
+
+    transactions_hypertable_created = False
+    audit_hypertable_created = False
     
     # Check if transactions table exists before converting to hypertable
     connection = op.get_bind()
@@ -46,12 +49,27 @@ def upgrade() -> None:
         is_hypertable = result.scalar()
         
         if not is_hypertable:
-            op.execute(text("""
-                SELECT create_hypertable('transactions', 'timestamp', 
-                    if_not_exists => TRUE,
-                    chunk_time_interval => INTERVAL '1 day'
+            pk_has_timestamp = connection.execute(text("""
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM information_schema.table_constraints tc
+                    JOIN information_schema.key_column_usage kcu
+                      ON tc.constraint_name = kcu.constraint_name
+                     AND tc.table_schema = kcu.table_schema
+                    WHERE tc.table_schema = 'public'
+                      AND tc.table_name = 'transactions'
+                      AND tc.constraint_type = 'PRIMARY KEY'
+                      AND kcu.column_name = 'timestamp'
                 );
-            """))
+            """)).scalar()
+            if pk_has_timestamp:
+                op.execute(text("""
+                    SELECT create_hypertable('transactions', 'timestamp', 
+                        if_not_exists => TRUE,
+                        chunk_time_interval => INTERVAL '1 day'
+                    );
+                """))
+                transactions_hypertable_created = True
     
     # Check if audit_log table exists before converting to hypertable
     result = connection.execute(text("""
@@ -74,31 +92,38 @@ def upgrade() -> None:
         is_hypertable = result.scalar()
         
         if not is_hypertable:
-            op.execute(text("""
-                SELECT create_hypertable('audit_log', 'created_at',
-                    if_not_exists => TRUE,
-                    chunk_time_interval => INTERVAL '7 days'
+            pk_has_created_at = connection.execute(text("""
+                SELECT EXISTS (
+                    SELECT 1
+                    FROM information_schema.table_constraints tc
+                    JOIN information_schema.key_column_usage kcu
+                      ON tc.constraint_name = kcu.constraint_name
+                     AND tc.table_schema = kcu.table_schema
+                    WHERE tc.table_schema = 'public'
+                      AND tc.table_name = 'audit_log'
+                      AND tc.constraint_type = 'PRIMARY KEY'
+                      AND kcu.column_name = 'created_at'
                 );
-            """))
+            """)).scalar()
+            if pk_has_created_at:
+                op.execute(text("""
+                    SELECT create_hypertable('audit_log', 'created_at',
+                        if_not_exists => TRUE,
+                        chunk_time_interval => INTERVAL '7 days'
+                    );
+                """))
+                audit_hypertable_created = True
     
     # Add compression policies only if hypertables were created
-    if transactions_exists and not is_hypertable:
+    if transactions_exists and transactions_hypertable_created:
         op.execute(text("""
             SELECT add_compression_policy('transactions', INTERVAL '30 days', if_not_exists => TRUE);
         """))
     
-    if audit_log_exists:
-        result = connection.execute(text("""
-            SELECT EXISTS (
-                SELECT FROM timescaledb_information.hypertables 
-                WHERE hypertable_name = 'audit_log'
-            );
+    if audit_log_exists and audit_hypertable_created:
+        op.execute(text("""
+            SELECT add_compression_policy('audit_log', INTERVAL '90 days', if_not_exists => TRUE);
         """))
-        is_audit_hypertable = result.scalar()
-        if not is_audit_hypertable:
-            op.execute(text("""
-                SELECT add_compression_policy('audit_log', INTERVAL '90 days', if_not_exists => TRUE);
-            """))
     
     # Add retention policies (optional - uncomment if you want automatic data deletion)
     # op.execute("""

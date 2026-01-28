@@ -1,0 +1,29 @@
+{
+  "name": "financial-forensic-system-main",
+  "version": "1.0.0",
+  "description": "A production-grade, real-time financial fraud detection and forensics platform designed for financial crime investigation teams (Deloitte-style forensics workflows).",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "demo": "concurrently \"npm:demo:server\" \"npm:demo:client\"",
+    "demo:server": "npm --prefix demo-app/server run dev",
+    "demo:client": "npm --prefix demo-app/client run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vikramsankhala/Financial-Forensic-System.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/vikramsankhala/Financial-Forensic-System/issues"
+  },
+  "homepage": "https://github.com/vikramsankhala/Financial-Forensic-System#readme",
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  }
+}

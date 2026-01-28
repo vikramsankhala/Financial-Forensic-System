@@ -1,4 +1,5 @@
 """Neo4j graph database service for entity relationship analysis."""
+import json
 import logging
 from typing import List, Dict, Optional, Any
 from neo4j import GraphDatabase, Driver
@@ -38,6 +39,18 @@ def get_graph_driver() -> Optional[Driver]:
     return _graph_driver
 
 
+def _serialize_metadata(value: Optional[Any]) -> Any:
+    """Convert metadata to Neo4j-safe property values."""
+    if value is None:
+        return ""
+    if isinstance(value, (dict, list)):
+        try:
+            return json.dumps(value)
+        except (TypeError, ValueError):
+            return str(value)
+    return value
+
+
 class GraphService:
     """Service for Neo4j graph operations."""
     
@@ -75,7 +88,7 @@ class GraphService:
             "entity_id": entity_id,
             "entity_type": entity_type,
             "name": name or "",
-            "metadata": metadata or {}
+            "metadata": _serialize_metadata(metadata)
         })
     
     def sync_entity_link(
@@ -107,7 +120,7 @@ class GraphService:
             "from_id": from_entity_id,
             "to_id": to_entity_id,
             "rel_type": relationship_type,
-            "metadata": metadata or {}
+            "metadata": _serialize_metadata(metadata)
         })
     
     def get_entity_network(self, entity_id: str, max_depth: int = 2) -> Dict:

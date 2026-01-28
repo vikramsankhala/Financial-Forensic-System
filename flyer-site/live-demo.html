@@ -36,6 +36,9 @@
         box-shadow: var(--shadow);
         border: 1px solid rgba(148, 163, 184, 0.2);
       }
+      .demo-screen.full {
+        min-height: 70vh;
+      }
       .demo-grid {
         display: grid;
         gap: 1rem;
@@ -46,6 +49,19 @@
         border-radius: 16px;
         padding: 1rem;
         border: 1px solid rgba(148, 163, 184, 0.2);
+        position: relative;
+        overflow: hidden;
+      }
+      .demo-card::after {
+        content: "";
+        position: absolute;
+        inset: -40%;
+        background: radial-gradient(circle, rgba(79, 70, 229, 0.18), transparent 60%);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .demo-card:hover::after {
+        opacity: 1;
       }
       .demo-badge {
         display: inline-flex;
@@ -81,6 +97,169 @@
         padding: 0.3rem 0.6rem;
         border-radius: 999px;
         font-size: 0.75rem;
+      }
+      .demo-shell {
+        display: grid;
+        gap: 1.5rem;
+      }
+      .live-kpis {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 1rem;
+      }
+      .kpi-tile {
+        background: rgba(15, 23, 42, 0.5);
+        border-radius: 16px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .kpi-tile h4 {
+        margin-bottom: 0.2rem;
+        font-size: 1.3rem;
+      }
+      .kpi-tile span {
+        font-size: 0.75rem;
+        color: rgba(226, 232, 240, 0.7);
+      }
+      .demo-panels {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 1rem;
+      }
+      .panel-mock {
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 16px;
+        padding: 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        min-height: 220px;
+      }
+      .panel-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.75rem;
+      }
+      .pulse {
+        position: relative;
+        padding-left: 16px;
+        font-size: 0.75rem;
+        color: #a5b4fc;
+      }
+      .pulse::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 4px;
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4f46e5;
+        box-shadow: 0 0 0 rgba(79, 70, 229, 0.6);
+        animation: pulse 2s infinite;
+      }
+      .alert-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.25rem 0.5rem;
+        border-radius: 999px;
+        font-size: 0.7rem;
+      }
+      .alert-pill.critical {
+        background: rgba(239, 68, 68, 0.2);
+        color: #fecaca;
+      }
+      .alert-pill.high {
+        background: rgba(249, 115, 22, 0.2);
+        color: #fed7aa;
+      }
+      .alert-pill.medium {
+        background: rgba(250, 204, 21, 0.2);
+        color: #fde68a;
+      }
+      .scan-line {
+        position: absolute;
+        left: 10%;
+        right: 10%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(56, 189, 248, 0.7), transparent);
+        animation: scan 4s linear infinite;
+      }
+      .annotated {
+        position: relative;
+      }
+      .annotation {
+        position: absolute;
+        right: -12px;
+        top: -12px;
+        background: #1e293b;
+        color: #e2e8f0;
+        border-radius: 12px;
+        padding: 0.5rem 0.75rem;
+        font-size: 0.72rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        max-width: 180px;
+      }
+      .annotation::after {
+        content: "";
+        position: absolute;
+        left: 12px;
+        top: 100%;
+        width: 12px;
+        height: 12px;
+        background: #1e293b;
+        transform: rotate(45deg) translateY(-6px);
+        border-right: 1px solid rgba(148, 163, 184, 0.2);
+        border-bottom: 1px solid rgba(148, 163, 184, 0.2);
+      }
+      .flow-steps {
+        display: grid;
+        gap: 0.75rem;
+      }
+      .flow-step {
+        background: rgba(15, 23, 42, 0.7);
+        border-radius: 14px;
+        padding: 0.75rem 1rem;
+        border: 1px solid rgba(148, 163, 184, 0.2);
+        display: flex;
+        gap: 0.75rem;
+        align-items: center;
+      }
+      .flow-step span {
+        display: inline-flex;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        align-items: center;
+        justify-content: center;
+        background: #4f46e5;
+        color: #fff;
+        font-weight: 600;
+        font-size: 0.8rem;
+      }
+      @keyframes pulse {
+        0% {
+          box-shadow: 0 0 0 0 rgba(79, 70, 229, 0.6);
+        }
+        70% {
+          box-shadow: 0 0 0 10px rgba(79, 70, 229, 0);
+        }
+        100% {
+          box-shadow: 0 0 0 0 rgba(79, 70, 229, 0);
+        }
+      }
+      @keyframes scan {
+        0% {
+          top: 10%;
+          opacity: 0.2;
+        }
+        50% {
+          opacity: 0.6;
+        }
+        100% {
+          top: 90%;
+          opacity: 0.2;
+        }
       }
     </style>
   </head>
@@ -123,79 +302,149 @@
         The layout below shows the complete live product demo screen in a single view, with
         descriptive callouts for each component.
       </p>
-      <div class="demo-screen">
-        <div class="demo-grid">
-          <div class="demo-card">
-            <span class="demo-badge">Real-time metrics</span>
-            <h5 class="mt-3">Executive KPI tiles</h5>
-            <p class="mb-0">
-              Transaction volume, high-risk alert count, open case load, response time, and FP rate
-              update every few seconds as new alerts stream in.
-            </p>
-          </div>
-          <div class="demo-card">
-            <span class="demo-badge">Alert stream</span>
-            <h5 class="mt-3">Live alert queue</h5>
-            <p class="mb-0">
-              Each alert contains member, channel, amount, and risk score so investigators can triage
-              without leaving the dashboard.
-            </p>
-          </div>
-          <div class="demo-card">
-            <span class="demo-badge">Case workflow</span>
-            <h5 class="mt-3">Open case panel</h5>
-            <p class="mb-0">
-              Investigator-ready case summaries show priority, owner, and last update time to support
-              rapid escalation.
-            </p>
-          </div>
-          <div class="demo-card">
+      <div class="demo-screen full demo-shell">
+        <div class="scan-line"></div>
+        <div class="live-kpis">
+          <div class="kpi-tile annotated">
             <span class="demo-badge">Transactions</span>
-            <h5 class="mt-3">Multi-channel feed</h5>
-            <p class="mb-0">
-              Recent transactions across card, ACH, RTP, wire, ITM, and mobile channels allow
-              cross-channel context for alerts.
-            </p>
+            <h4>1,284,921</h4>
+            <span>Processed this quarter</span>
+            <div class="annotation">Live throughput updates every 8 seconds.</div>
+          </div>
+          <div class="kpi-tile annotated">
+            <span class="demo-badge">High-risk alerts</span>
+            <h4>46</h4>
+            <span>Critical + high queue</span>
+            <div class="annotation">Auto-triage by risk score &gt; 0.75.</div>
+          </div>
+          <div class="kpi-tile annotated">
+            <span class="demo-badge">Open cases</span>
+            <h4>13</h4>
+            <span>Investigator workload</span>
+            <div class="annotation">Case ownership drives accountability.</div>
+          </div>
+          <div class="kpi-tile annotated">
+            <span class="demo-badge">Avg response</span>
+            <h4>7m 12s</h4>
+            <span>Median response time</span>
+            <div class="annotation">Captured for KPI dashboards.</div>
           </div>
         </div>
 
-        <div class="mt-4">
-          <div class="demo-table">
-            <div class="demo-row">
-              <strong>Member</strong>
-              <strong>Channel</strong>
-              <strong>Amount</strong>
-              <strong>Risk</strong>
-              <strong>Status</strong>
+        <div class="demo-panels">
+          <div class="panel-mock annotated">
+            <div class="panel-title">
+              <strong>Live alert stream</strong>
+              <span class="pulse">Streaming</span>
             </div>
-            <div class="demo-row">
-              <span>Sarah Martinez</span>
-              <span>Online</span>
-              <span>$8,500</span>
-              <span>0.92</span>
-              <span>Critical</span>
+            <div class="demo-table">
+              <div class="demo-row">
+                <strong>Member</strong>
+                <strong>Channel</strong>
+                <strong>Amount</strong>
+                <strong>Risk</strong>
+                <strong>Status</strong>
+              </div>
+              <div class="demo-row">
+                <span>Sarah Martinez</span>
+                <span>Online</span>
+                <span>$8,500</span>
+                <span>0.92</span>
+                <span class="alert-pill critical">Critical</span>
+              </div>
+              <div class="demo-row">
+                <span>Robert Thompson</span>
+                <span>ITM</span>
+                <span>$12,000</span>
+                <span>0.94</span>
+                <span class="alert-pill critical">Critical</span>
+              </div>
+              <div class="demo-row">
+                <span>Dana Patel</span>
+                <span>Card</span>
+                <span>$1,780</span>
+                <span>0.71</span>
+                <span class="alert-pill high">High</span>
+              </div>
             </div>
-            <div class="demo-row">
-              <span>Robert Thompson</span>
-              <span>ITM</span>
-              <span>$12,000</span>
-              <span>0.94</span>
-              <span>Critical</span>
-            </div>
-            <div class="demo-row">
-              <span>Dana Patel</span>
-              <span>Card</span>
-              <span>$1,780</span>
-              <span>0.71</span>
-              <span>High</span>
-            </div>
+            <div class="annotation">Each alert is enriched with entity history + risk signals.</div>
           </div>
-          <div class="legend">
-            <span>Critical = Auto-case created</span>
-            <span>High = Investigator review</span>
-            <span>Medium = Watchlist</span>
-            <span>Low = Baseline</span>
+
+          <div class="panel-mock annotated">
+            <div class="panel-title">
+              <strong>Case workflow queue</strong>
+              <span class="demo-badge">Auto-case</span>
+            </div>
+            <div class="flow-steps">
+              <div class="flow-step">
+                <span>1</span>
+                <div>
+                  <strong>Impersonation + ATO</strong>
+                  <div class="text-muted">Owner: Jessica Chen • Critical</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <span>2</span>
+                <div>
+                  <strong>Check kiting ring</strong>
+                  <div class="text-muted">Owner: Michael Torres • High</div>
+                </div>
+              </div>
+              <div class="flow-step">
+                <span>3</span>
+                <div>
+                  <strong>Elder RTP scam</strong>
+                  <div class="text-muted">Owner: Jennifer Adams • Critical</div>
+                </div>
+              </div>
+            </div>
+            <div class="annotation">Workflow stages track evidence, actions, and SAR readiness.</div>
           </div>
+
+          <div class="panel-mock annotated">
+            <div class="panel-title">
+              <strong>Transaction intelligence</strong>
+              <span class="demo-badge">Cross-channel</span>
+            </div>
+            <div class="demo-table">
+              <div class="demo-row">
+                <strong>Member</strong>
+                <strong>Channel</strong>
+                <strong>Merchant</strong>
+                <strong>Amount</strong>
+                <strong>Risk</strong>
+              </div>
+              <div class="demo-row">
+                <span>Erin Fields</span>
+                <span>ACH</span>
+                <span>Utility Payments</span>
+                <span>$220</span>
+                <span class="alert-pill medium">0.32</span>
+              </div>
+              <div class="demo-row">
+                <span>Samuel Ortiz</span>
+                <span>Mobile</span>
+                <span>Payroll Services</span>
+                <span>$2,100</span>
+                <span class="alert-pill medium">0.38</span>
+              </div>
+              <div class="demo-row">
+                <span>Dana Patel</span>
+                <span>Card</span>
+                <span>Electronics Hub</span>
+                <span>$5,000</span>
+                <span class="alert-pill high">0.85</span>
+              </div>
+            </div>
+            <div class="annotation">Transaction context explains why alerts are generated.</div>
+          </div>
+        </div>
+
+        <div class="legend">
+          <span>Critical = Auto-case created</span>
+          <span>High = Investigator review</span>
+          <span>Medium = Watchlist</span>
+          <span>Low = Baseline</span>
         </div>
       </div>
     </section>
