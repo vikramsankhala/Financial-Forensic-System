@@ -53,6 +53,7 @@ dist/
 # OS
 .DS_Store
 Thumbs.db
+Vikram Academic Resume.pdf
 
 # Models
 backend/models/*.pth
@@ -62,6 +63,8 @@ backend/models/*.pkl
 # Database
 *.db
 *.sqlite
+*.db-shm
+*.db-wal
 
 # Logs
 *.log
