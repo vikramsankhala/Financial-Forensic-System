@@ -207,6 +207,129 @@ export default function ExecutiveSummaryPage() {
     ],
   };
 
+  const regulationMapping = [
+    {
+      region: 'EU + UK',
+      positioning:
+        "Meet PSD2 Transaction Risk Analysis obligations and prepare for PSD3's real-time monitoring mandate with explainable scoring and audit trails.",
+      items: [
+        {
+          title: 'PSD2 / PSD3',
+          description:
+            'Real-time Transaction Risk Analysis (TRA), fraud monitoring, and periodic fraud reporting with auditable decisions.',
+          sources: [
+            {
+              label: 'Deloitte',
+              href: 'https://www.deloitte.com/ch/en/Industries/financial-services/blogs/eu-payment-fraud-regulations.html',
+            },
+            {
+              label: 'Stripe',
+              href: 'https://stripe.com/in/guides/what-platforms-and-marketplaces-can-expect-from-psd3',
+            },
+            {
+              label: 'EBA',
+              href: 'https://www.eba.europa.eu/activities/single-rulebook/regulatory-activities/payment-services-and-electronic-money/guidelines-fraud-reporting-under-psd2',
+            },
+          ],
+        },
+        {
+          title: 'AMLD5 / AMLD6',
+          description:
+            'Risk-based transaction monitoring, suspicious activity detection, and SAR-ready case files with evidence trails.',
+          sources: [
+            {
+              label: 'Partisia',
+              href: 'https://www.partisia.com/blog/psd2-and-fraud-monitoring-the-evolution-of-secure-payments-in-europe',
+            },
+          ],
+        },
+        {
+          title: 'UK APP Fraud / PSR Rules',
+          description:
+            'Push-payment scam detection, delay and investigate workflows, and reimbursement risk mitigation.',
+          sources: [
+            {
+              label: 'Harper James',
+              href: 'https://harperjames.co.uk/article/app-fraud-reimbursement-rules/',
+            },
+            {
+              label: 'Decta',
+              href: 'https://www.decta.com/new-uk-payment-regulations-2025-what-consumers--businesses-need-to-know',
+            },
+          ],
+        },
+      ],
+    },
+    {
+      region: 'US',
+      positioning:
+        'Build examiner-ready transaction monitoring with SAR workflows and real-time fraud controls for instant-payment rails.',
+      items: [
+        {
+          title: 'BSA / AML Program (FinCEN)',
+          description:
+            'Risk-based monitoring, SAR decisioning support, and audit-ready case documentation.',
+          sources: [
+            {
+              label: 'Anaptyss',
+              href: 'https://www.anaptyss.com/blog/real-time-payment-fraud-detection-aml-compliance-strategies-banks/',
+            },
+          ],
+        },
+        {
+          title: 'FedNow / RTP Scheme Expectations',
+          description:
+            'Sub-100ms fraud screening, velocity controls, and rapid triage for instant payments.',
+          sources: [
+            {
+              label: 'Fiserv',
+              href: 'https://www.fiserv.com/content/dam/fiserv-ent/final-files/marketing-collateral/point-of-view-papers/Preventing_Real-Time_Fraud_in_Real-Time_Payments_POV_Paper_0121.pdf',
+            },
+          ],
+        },
+        {
+          title: 'Card Networks & Reg E / UDAAP',
+          description:
+            'Card-not-present fraud controls, chargeback defense evidence, and consumer protection support.',
+        },
+      ],
+    },
+    {
+      region: 'India',
+      positioning:
+        'Support RBI-aligned payment fraud monitoring with real-time anomaly detection and risk-scored decisioning.',
+      items: [
+        {
+          title: 'RBI Master Directions & Payment System Rules',
+          description:
+            'Continuous monitoring for UPI, AePS, and other rails with risk-based limits and anomaly detection.',
+        },
+        {
+          title: 'RBI AePS Fraud Guidelines',
+          description:
+            'Operator risk profiling, velocity limits, and real-time alerts for AePS touchpoint activity.',
+          sources: [
+            {
+              label: 'Economic Times',
+              href: 'https://bfsi.economictimes.indiatimes.com/articles/rbi-introduces-stricter-guidelines-for-aadhaar-enabled-payment-system-to-combat-fraud/122123076',
+            },
+          ],
+        },
+        {
+          title: 'RBI Financial Fraud Risk Indicator (FRI)',
+          description:
+            'Ingest external risk scores and act on high-risk mobile identifiers with auditable actions.',
+          sources: [
+            {
+              label: 'PIB India',
+              href: 'https://www.pib.gov.in/PressReleasePage.aspx?PRID=2141616',
+            },
+          ],
+        },
+      ],
+    },
+  ];
+
   return (
     <Layout
       breadcrumbs={[
@@ -537,6 +660,64 @@ export default function ExecutiveSummaryPage() {
                 </CardContent>
               </Card>
             </Grid>
+          </Grid>
+        </Paper>
+
+        {/* Regulation Mapping */}
+        <Paper sx={{ p: 4, mb: 4 }}>
+          <Typography variant="h5" gutterBottom>
+            Regulation Mapping by Region
+          </Typography>
+          <Divider sx={{ mb: 3 }} />
+          <Typography variant="body2" color="text.secondary" paragraph>
+            Map 3-5 core regulations per region to the platform capabilities used for fraud
+            monitoring, investigation, and compliance reporting.
+          </Typography>
+          <Grid container spacing={3}>
+            {regulationMapping.map((region) => (
+              <Grid item xs={12} md={4} key={region.region}>
+                <Card variant="outlined" sx={{ height: '100%' }}>
+                  <CardContent>
+                    <Typography variant="h6" gutterBottom>
+                      {region.region}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {region.positioning}
+                    </Typography>
+                    <List dense>
+                      {region.items.map((item, index) => (
+                        <ListItem key={index} alignItems="flex-start">
+                          <ListItemIcon sx={{ mt: 0.5 }}>
+                            <GavelIcon color="primary" />
+                          </ListItemIcon>
+                          <ListItemText
+                            primary={item.title}
+                            secondary={
+                              <>
+                                <Box component="span">{item.description}</Box>
+                                {item.sources?.length ? (
+                                  <Box component="span" sx={{ display: 'block', mt: 0.5 }}>
+                                    Sources:{' '}
+                                    {item.sources.map((source, sourceIndex) => (
+                                      <Box component="span" key={source.href}>
+                                        <a href={source.href} target="_blank" rel="noreferrer noopener">
+                                          {source.label}
+                                        </a>
+                                        {sourceIndex < item.sources.length - 1 ? ', ' : ''}
+                                      </Box>
+                                    ))}
+                                  </Box>
+                                ) : null}
+                              </>
+                            }
+                          />
+                        </ListItem>
+                      ))}
+                    </List>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </Paper>
 
